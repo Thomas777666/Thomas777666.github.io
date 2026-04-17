@@ -4,182 +4,358 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JARVIS Interface</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
 body {
     margin: 0;
     font-family: 'Orbitron', sans-serif;
     background: radial-gradient(circle at center, #020617, #000000);
     color: #00f7ff;
+    overflow-x: hidden;
 }
 
 /* HEADER */
 header {
-    width: 100%;
-    max-width: 1100px;
-    margin: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 20px 40px;
     border-bottom: 1px solid #00f7ff33;
 }
 
 nav a {
-    margin: 0 10px;
+    margin: 0 15px;
     text-decoration: none;
     color: #00f7ff;
-    font-size: 14px;
+    position: relative;
 }
 
-/* CENTER */
-.center {
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #00f7ff;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* LOGIN ICON */
+.login-icon {
+    border: 1px solid #00f7ff;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-icon:hover {
+    background: #00f7ff;
+    color: black;
+}
+
+/* CENTER PANEL */
+.center-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    margin-top: 60px;
+    animation: fadeIn 1.5s ease;
 }
 
-.center h1 {
-    font-size: 50px;
+.center-panel h1 {
+    font-size: 48px;
     text-shadow: 0 0 20px #00f7ff;
 }
 
-button {
-    margin-top: 15px;
-    padding: 10px 18px;
-    border: 1px solid #00f7ff;
-    background: transparent;
-    color: #00f7ff;
-    cursor: pointer;
+.center-panel p {
+    opacity: 0.7;
 }
 
-/* SECTIONS */
-.section {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    border: 1px solid #00f7ff22;
-    border-radius: 12px;
-    background: rgba(0, 247, 255, 0.03);
+/* BUTTON */
+button {
+    margin-top: 20px;
+    background: transparent;
+    border: 1px solid #00f7ff;
+    color: #00f7ff;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00f7ff;
+    color: black;
+    box-shadow: 0 0 15px #00f7ff;
 }
 
 /* PLANS */
 .plans {
     display: flex;
-    gap: 15px;
-    justify-content: center;
-    align-items: stretch;
-    flex-wrap: nowrap; /* ключевое изменение */
+    gap: 20px;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 .plan {
     flex: 1;
-    max-width: 260px;
-    min-width: 220px;
-    padding: 15px;
+    min-width: 200px;
     border: 1px solid #00f7ff33;
-    border-radius: 10px;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(0, 247, 255, 0.05);
     text-align: center;
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
 }
 
-/* LOGIN */
+.plan::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, #00f7ff33, transparent);
+    top: -100%;
+    left: 0;
+    transition: 0.5s;
+}
+
+.plan:hover::before {
+    top: 100%;
+}
+
+.plan:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 0 20px #00f7ff55;
+}
+
+.plan.active {
+    border: 1px solid #00f7ff;
+    box-shadow: 0 0 15px #00f7ff;
+}
+
+.plan.pro {
+    border: 1px solid #ff00ff55;
+    color: #ff9bff;
+}
+
+.price {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.status {
+    color: #00ff88;
+    font-size: 12px;
+}
+
+.plan button {
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* PRIVACY */
+.privacy h3 {
+    margin-top: 20px;
+    color: #00f7ff;
+    text-shadow: 0 0 8px #00f7ff;
+}
+
+.privacy p {
+    opacity: 0.8;
+    line-height: 1.6;
+    border-left: 2px solid #00f7ff33;
+    padding-left: 10px;
+}
+
+/* SECTIONS */
+.section {
+    padding: 100px 40px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.8s;
+}
+
+.section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card {
+    border: 1px solid #00f7ff33;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(0, 247, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+/* LOGIN MODAL */
 .modal {
-    display: none;
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0,0,0,0.8);
+    display: none;
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
     background: #020617;
-    padding: 20px;
+    padding: 30px;
     border: 1px solid #00f7ff;
-    width: 280px;
+    width: 300px;
+    animation: fadeIn 0.5s ease;
 }
 
 input {
     width: 100%;
-    margin: 5px 0;
+    margin-bottom: 10px;
     padding: 8px;
     background: black;
     border: 1px solid #00f7ff33;
     color: #00f7ff;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);} 
+    to {opacity: 1; transform: translateY(0);} 
+}
+
+/* SCAN LINE */
+.scan-line {
+    position: fixed;
+    width: 100%;
+    height: 2px;
+    background: #00f7ff55;
+    animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
 }
 </style>
 </head>
 
 <body>
 
+<div class="scan-line"></div>
+
 <header>
-    <h3>JARVIS</h3>
-    <nav>
-        <a href="#about">About</a>
-        <a href="#download">Download</a>
-        <a href="#donate">Donate</a>
-        <a href="#privacy">Privacy</a>
-        <a href="#contact">Contact</a>
-    </nav>
-    <button onclick="openLogin()">Login</button>
+    <h2>JARVIS SYSTEM</h2>
+    <div>
+        <nav>
+            <a href="#about">ABOUT US</a>
+            <a href="#download">DOWNLOAD</a>
+            <a href="#donate">DONATE</a>
+            <a href="#privacy">PRIVACY POLICY</a>
+            <a href="#contact">CONTACT</a>
+        </nav>
+    </div>
+    <div class="login-icon" onclick="openLogin()">LOGIN</div>
 </header>
 
-<div class="center">
+<div class="center-panel">
     <h1>JARVIS</h1>
     <p>Artificial Intelligence System</p>
-    <button onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
-        Enter System
-    </button>
+    <button onclick="scrollToSection('about')">ENTER SYSTEM</button>
 </div>
 
-<div id="about" class="section">
-    <h2>About</h2>
-    <p>Advanced AI interface system.</p>
+<div class="section" id="about">
+    <div class="card">
+        <h2>ABOUT US</h2>
+        <p>Advanced AI interface system.</p>
+    </div>
 </div>
 
-<div id="download" class="section">
-    <h2>Download</h2>
-    <button>Download</button>
+<div class="section" id="download">
+    <div class="card">
+        <h2>DOWNLOAD</h2>
+        <button>Download</button>
+    </div>
 </div>
 
-<div id="donate" class="section">
-    <h2>Plans</h2>
+<div class="section" id="donate">
+    <div class="card">
+        <h2>DONATE / PLANS</h2>
 
-    <div class="plans">
-        <div class="plan">
-            <h3>Basic</h3>
-            <p>Free</p>
-        </div>
+        <div class="plans">
+            <div class="plan active">
+                <h3>BASIC</h3>
+                <p class="price">FREE</p>
+                <p class="status">ACTIVE</p>
+                <button disabled>Activated</button>
+            </div>
 
-        <div class="plan">
-            <h3>Plus</h3>
-            <p>$5 / month</p>
-        </div>
+            <div class="plan">
+                <h3>PLUS</h3>
+                <p class="price">$5 / month</p>
+                <p>More features unlocked</p>
+                <button>Buy</button>
+            </div>
 
-        <div class="plan">
-            <h3>Pro</h3>
-            <p>$10 / month</p>
+            <div class="plan pro">
+                <h3>PRO</h3>
+                <p class="price">$10 / month</p>
+                <p>Full system access</p>
+                <button>Buy</button>
+            </div>
         </div>
     </div>
 </div>
 
-<div id="privacy" class="section">
-    <h2>Privacy Policy</h2>
-    <p>We collect only necessary data for system operation and improvement.</p>
+<div class="section" id="privacy">
+    <div class="card">
+        <h2>PRIVACY POLICY</h2>
+        <div class="privacy">
+            <h3>1. Information We Collect</h3>
+            <p>We collect only the data necessary to operate and improve the system...</p>
+
+            <h3>2. How We Use Data</h3>
+            <p>Your data is used strictly for system operation and improvement...</p>
+
+            <h3>3. AI Processing</h3>
+            <p>All interactions are processed automatically by AI systems...</p>
+
+            <h3>4. Data Retention</h3>
+            <p>Data is stored only as long as necessary...</p>
+
+            <h3>5. Data Sharing</h3>
+            <p>We do not sell or trade personal data...</p>
+
+            <h3>6. Security</h3>
+            <p>We use encryption and security measures...</p>
+
+            <h3>7. Your Rights</h3>
+            <p>You can request access or deletion of data...</p>
+
+            <h3>8. Contact</h3>
+            <p>support@jarvis.ai</p>
+        </div>
+    </div>
 </div>
 
-<div id="contact" class="section">
-    <h2>Contact</h2>
-    <p>support@jarvis.ai</p>
+<div class="section" id="contact">
+    <div class="card">
+        <h2>CONTACT</h2>
+        <p>support@jarvis.ai</p>
+    </div>
 </div>
 
-<!-- LOGIN -->
 <div class="modal" id="loginModal">
     <div class="modal-content">
-        <h3>Login</h3>
-        <input placeholder="Username">
+        <h3>LOGIN</h3>
+        <input type="text" placeholder="Username">
         <input type="password" placeholder="Password">
         <button onclick="closeLogin()">Enter</button>
     </div>
@@ -192,6 +368,20 @@ function openLogin(){
 function closeLogin(){
     document.getElementById('loginModal').style.display = 'none';
 }
+
+function scrollToSection(id){
+    document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+const sections = document.querySelectorAll('.section');
+window.addEventListener('scroll', () => {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if(top < window.innerHeight - 100){
+            sec.classList.add('active');
+        }
+    });
+});
 </script>
 
 </body>
