@@ -44,10 +44,8 @@ nav a {
     color: #00f7ff;
     position: relative;
     padding: 6px 10px;
-    z-index: 1;
 }
 
-/* indicator */
 .indicator {
     position: absolute;
     top: -4px;
@@ -69,8 +67,9 @@ nav a {
 
 /* CENTER */
 .center-panel {
+    position: relative;
+    margin-top: 40px;
     text-align: center;
-    margin-top: 80px;
 }
 
 .center-panel h1 {
@@ -81,12 +80,22 @@ nav a {
 
 /* SECTIONS */
 .section {
-    padding: 80px 40px;
+    padding: 100px 40px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.8s;
 }
+
+.section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .card {
     border: 1px solid #00f7ff33;
     padding: 20px;
     border-radius: 10px;
+    background: rgba(0, 247, 255, 0.05);
 }
 
 /* PLANS */
@@ -95,12 +104,14 @@ nav a {
     gap: 20px;
     flex-wrap: wrap;
 }
+
 .plan {
     flex: 1;
     min-width: 200px;
-    padding: 20px;
     border: 1px solid #00f7ff33;
+    padding: 20px;
     border-radius: 12px;
+    background: rgba(0, 247, 255, 0.05);
 }
 
 /* MODAL */
@@ -117,6 +128,16 @@ nav a {
     background: #020617;
     padding: 30px;
     border: 1px solid #00f7ff;
+    width: 300px;
+}
+
+input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    background: black;
+    border: 1px solid #00f7ff33;
+    color: #00f7ff;
 }
 </style>
 </head>
@@ -128,10 +149,11 @@ nav a {
 
     <nav>
         <div class="indicator"></div>
-        <a href="#about">ABOUT</a>
+
+        <a href="#about">ABOUT US</a>
         <a href="#download">DOWNLOAD</a>
         <a href="#donate">DONATE</a>
-        <a href="#privacy">PRIVACY</a>
+        <a href="#privacy">PRIVACY POLICY</a>
         <a href="#contact">CONTACT</a>
     </nav>
 
@@ -143,38 +165,56 @@ nav a {
     <p>Artificial Intelligence System</p>
 </div>
 
-<div class="section" id="about">
-    <div class="card">ABOUT US</div>
-</div>
+<!-- SECTIONS -->
+<div class="section" id="about"><div class="card"><h2>ABOUT US</h2><p>Advanced AI interface system.</p></div></div>
 
-<div class="section" id="download">
-    <div class="card">DOWNLOAD</div>
-</div>
+<div class="section" id="download"><div class="card"><h2>DOWNLOAD</h2><button>Download</button></div></div>
 
 <div class="section" id="donate">
     <div class="card">
+        <h2>DONATE / PLANS</h2>
         <div class="plans">
-            <div class="plan">BASIC</div>
-            <div class="plan">PLUS</div>
-            <div class="plan">PRO</div>
+
+            <div class="plan">
+                <h3>BASIC</h3>
+                <p>FREE</p>
+            </div>
+
+            <div class="plan">
+                <h3>PLUS</h3>
+                <p>$5 / month</p>
+            </div>
+
+            <div class="plan">
+                <h3>PRO</h3>
+                <p>$10 / month</p>
+            </div>
+
         </div>
     </div>
 </div>
 
 <div class="section" id="privacy">
-    <div class="card">PRIVACY POLICY</div>
+    <div class="card">
+        <h2>PRIVACY POLICY</h2>
+        <p>All privacy text here...</p>
+    </div>
 </div>
 
 <div class="section" id="contact">
-    <div class="card">CONTACT</div>
+    <div class="card">
+        <h2>CONTACT</h2>
+        <p>support@jarvis.ai</p>
+    </div>
 </div>
 
 <!-- LOGIN -->
 <div class="modal" id="loginModal">
     <div class="modal-content">
-        <input placeholder="login">
-        <input type="password" placeholder="password">
-        <button onclick="closeLogin()">ENTER</button>
+        <h3>LOGIN</h3>
+        <input type="text">
+        <input type="password">
+        <button onclick="closeLogin()">Enter</button>
     </div>
 </div>
 
@@ -182,6 +222,7 @@ nav a {
 function openLogin(){
     document.getElementById("loginModal").style.display = "flex";
 }
+
 function closeLogin(){
     document.getElementById("loginModal").style.display = "none";
 }
@@ -199,7 +240,19 @@ links.forEach(link => {
 });
 
 window.addEventListener("load", () => {
-    if (links.length) moveIndicator(links[0]);
+    moveIndicator(links[0]);
+});
+
+// scroll animation
+const sections = document.querySelectorAll(".section");
+
+window.addEventListener("scroll", () => {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if(top < window.innerHeight - 100){
+            sec.classList.add("active");
+        }
+    });
 });
 </script>
 
