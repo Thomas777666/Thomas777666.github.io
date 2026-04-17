@@ -14,6 +14,7 @@ body {
     background: radial-gradient(circle at center, #020617, #000000);
     color: #00f7ff;
     overflow-x: hidden;
+    padding-top: 70px;
 }
 
 /* HEADER */
@@ -22,8 +23,6 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    width: 100%;
-    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -34,7 +33,6 @@ header {
     z-index: 1000;
 }
 
-/* NAV */
 nav {
     position: relative;
     display: flex;
@@ -42,41 +40,24 @@ nav {
 }
 
 nav a {
-    margin: 0 15px;
     text-decoration: none;
     color: #00f7ff;
     position: relative;
+    padding: 6px 10px;
+    z-index: 1;
 }
 
-nav a::after {
-    content: '';
+/* indicator */
+.indicator {
     position: absolute;
-    width: 0%;
-    height: 2px;
-    background: #00f7ff;
-    left: 0;
-    bottom: -5px;
-    transition: 0.3s;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
-
-/* INDICATOR */
-nav .indicator {
-    position: absolute;
-    top: -6px;
+    top: -4px;
     left: 0;
     height: 32px;
-    width: 0;
-    border-radius: 12px;
+    border-radius: 10px;
     border: 1px solid #00f7ff55;
     background: rgba(0, 247, 255, 0.08);
-    backdrop-filter: blur(6px);
-    transition: all 0.3s ease;
+    transition: 0.3s;
     z-index: 0;
-    pointer-events: none;
 }
 
 /* LOGIN */
@@ -84,19 +65,12 @@ nav .indicator {
     border: 1px solid #00f7ff;
     padding: 8px 12px;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-.login-icon:hover {
-    background: #00f7ff;
-    color: black;
 }
 
 /* CENTER */
 .center-panel {
-    position: relative;
-    margin-top: 80px;
     text-align: center;
+    margin-top: 80px;
 }
 
 .center-panel h1 {
@@ -105,35 +79,44 @@ nav .indicator {
     margin: 0;
 }
 
-.center-panel p {
-    opacity: 0.7;
-    margin-top: 8px;
-}
-
 /* SECTIONS */
 .section {
-    padding: 100px 40px;
-    opacity: 0;
-    transform: translateY(40px);
-    transition: 0.8s;
+    padding: 80px 40px;
 }
-
-.section.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 .card {
     border: 1px solid #00f7ff33;
     padding: 20px;
     border-radius: 10px;
-    background: rgba(0, 247, 255, 0.05);
 }
 
-/* ANIMATION */
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
+/* PLANS */
+.plans {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.plan {
+    flex: 1;
+    min-width: 200px;
+    padding: 20px;
+    border: 1px solid #00f7ff33;
+    border-radius: 12px;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+    background: #020617;
+    padding: 30px;
+    border: 1px solid #00f7ff;
 }
 </style>
 </head>
@@ -145,11 +128,10 @@ nav .indicator {
 
     <nav>
         <div class="indicator"></div>
-
-        <a href="#about">ABOUT US</a>
+        <a href="#about">ABOUT</a>
         <a href="#download">DOWNLOAD</a>
         <a href="#donate">DONATE</a>
-        <a href="#privacy">PRIVACY POLICY</a>
+        <a href="#privacy">PRIVACY</a>
         <a href="#contact">CONTACT</a>
     </nav>
 
@@ -161,58 +143,63 @@ nav .indicator {
     <p>Artificial Intelligence System</p>
 </div>
 
-<div class="section" id="about"><div class="card"><h2>ABOUT US</h2></div></div>
-<div class="section" id="download"><div class="card"><h2>DOWNLOAD</h2></div></div>
-<div class="section" id="donate"><div class="card"><h2>DONATE / PLANS</h2></div></div>
-<div class="section" id="privacy"><div class="card"><h2>PRIVACY POLICY</h2></div></div>
-<div class="section" id="contact"><div class="card"><h2>CONTACT</h2></div></div>
+<div class="section" id="about">
+    <div class="card">ABOUT US</div>
+</div>
+
+<div class="section" id="download">
+    <div class="card">DOWNLOAD</div>
+</div>
+
+<div class="section" id="donate">
+    <div class="card">
+        <div class="plans">
+            <div class="plan">BASIC</div>
+            <div class="plan">PLUS</div>
+            <div class="plan">PRO</div>
+        </div>
+    </div>
+</div>
+
+<div class="section" id="privacy">
+    <div class="card">PRIVACY POLICY</div>
+</div>
+
+<div class="section" id="contact">
+    <div class="card">CONTACT</div>
+</div>
 
 <!-- LOGIN -->
 <div class="modal" id="loginModal">
     <div class="modal-content">
-        <h3>LOGIN</h3>
-        <input type="text">
-        <input type="password">
-        <button onclick="closeLogin()">Enter</button>
+        <input placeholder="login">
+        <input type="password" placeholder="password">
+        <button onclick="closeLogin()">ENTER</button>
     </div>
 </div>
 
 <script>
 function openLogin(){
-    document.getElementById('loginModal').style.display = 'flex';
+    document.getElementById("loginModal").style.display = "flex";
 }
 function closeLogin(){
-    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById("loginModal").style.display = "none";
 }
 
-/* scroll animation */
-const sections = document.querySelectorAll('.section');
-window.addEventListener('scroll', () => {
-    sections.forEach(sec => {
-        const top = sec.getBoundingClientRect().top;
-        if(top < window.innerHeight - 100){
-            sec.classList.add('active');
-        }
-    });
-});
-
-/* indicator menu */
 const links = document.querySelectorAll("nav a");
-const indicator = document.querySelector("nav .indicator");
+const indicator = document.querySelector(".indicator");
 
-function moveIndicator(el) {
+function moveIndicator(el){
     indicator.style.width = el.offsetWidth + "px";
     indicator.style.left = el.offsetLeft + "px";
 }
 
 links.forEach(link => {
-    link.addEventListener("click", () => {
-        moveIndicator(link);
-    });
+    link.addEventListener("click", () => moveIndicator(link));
 });
 
 window.addEventListener("load", () => {
-    moveIndicator(links[0]);
+    if (links.length) moveIndicator(links[0]);
 });
 </script>
 
