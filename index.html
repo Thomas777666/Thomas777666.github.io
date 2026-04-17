@@ -24,11 +24,13 @@ header {
     border-bottom: 1px solid #00f7ff33;
 }
 
+/* NAV WRAPPER (ДОБАВЛЕНО) */
 nav {
     position: relative;
     display: flex;
 }
 
+/* LINKS */
 nav a {
     margin: 0 15px;
     text-decoration: none;
@@ -52,7 +54,7 @@ nav a:hover::after {
     width: 100%;
 }
 
-/* 🔥 ACTIVE INDICATOR */
+/* 🔥 ACTIVE INDICATOR (ДОБАВЛЕНО) */
 .indicator {
     position: absolute;
     top: -6px;
@@ -63,9 +65,10 @@ nav a:hover::after {
     border: 1px solid #00f7ff55;
     transition: all 0.3s ease;
     z-index: 1;
+    pointer-events: none;
 }
 
-/* LOGIN */
+/* LOGIN ICON */
 .login-icon {
     border: 1px solid #00f7ff;
     padding: 8px 12px;
@@ -133,6 +136,7 @@ button:hover {
     <h2>JARVIS</h2>
 
     <nav>
+        <!-- ИНДИКАТОР -->
         <div class="indicator"></div>
 
         <a href="#about">ABOUT US</a>
@@ -173,12 +177,6 @@ links.forEach(link => {
 
 window.addEventListener("load", () => {
     moveIndicator(links[0]);
-});
-</script>
-
-</body>
-</html>
-    });
 });
 </script>
 
