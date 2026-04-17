@@ -19,7 +19,9 @@ header {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100%;
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,7 +29,18 @@ header {
     border-bottom: 1px solid #00f7ff33;
     background: rgba(2, 6, 23, 0.85);
     backdrop-filter: blur(10px);
-    z-index: 1000;
+    z-index: 1000;А
+}
+
+header {
+    flex-wrap: wrap;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
 
 nav a {
