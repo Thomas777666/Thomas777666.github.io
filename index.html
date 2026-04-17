@@ -361,9 +361,11 @@ function moveIndicator(el){
 
 links.forEach(link => {
     link.addEventListener("click", () => moveIndicator(link));
+});
 
 window.addEventListener("load", () => {
     if(links[0]) moveIndicator(links[0]);
+});
 </script>
 
 </body>
