@@ -16,11 +16,18 @@ body {
 
 /* HEADER */
 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px;
     border-bottom: 1px solid #00f7ff33;
+    background: rgba(2, 6, 23, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
 }
 
 nav a {
