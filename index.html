@@ -78,13 +78,17 @@ nav {
 
 nav .indicator {
     position: absolute;
-    top: -5px;
-    height: 30px;
+    top: -6px;
+    left: 0;
+    height: 32px;
+    width: 0;
+    border-radius: 12px;
     border: 1px solid #00f7ff55;
     background: rgba(0, 247, 255, 0.08);
-    border-radius: 12px;
+    backdrop-filter: blur(6px);
     transition: all 0.3s ease;
     z-index: 0;
+    pointer-events: none;
 }
 
 /* LOGIN ICON */
@@ -409,6 +413,22 @@ window.addEventListener('scroll', () => {
     });
 });
 </script>
+const links = document.querySelectorAll("nav a");
+const indicator = document.querySelector("nav .indicator");
 
+function moveIndicator(el) {
+    indicator.style.width = el.offsetWidth + "px";
+    indicator.style.left = el.offsetLeft + "px";
+}
+
+links.forEach(link => {
+    link.addEventListener("click", () => {
+        moveIndicator(link);
+    });
+});
+
+window.addEventListener("load", () => {
+    moveIndicator(links[0]);
+});
 </body>
 </html>
