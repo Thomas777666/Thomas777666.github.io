@@ -244,9 +244,9 @@ input {
     0% { top: 0; }
     100% { top: 100%; }
 }
+
 </style>
 </head>
-
 <body>
 
 <div class="scan-line"></div>
@@ -271,25 +271,15 @@ input {
     <button onclick="scrollToSection('about')">ENTER SYSTEM</button>
 </div>
 
-<div class="section" id="about">
-    <div class="card">
-        <h2>ABOUT US</h2>
-        <p>Advanced AI interface system.</p>
-    </div>
-</div>
+<div class="section" id="about"><div class="card"><h2>ABOUT US</h2><p>Advanced AI interface system.</p></div></div>
 
-<div class="section" id="download">
-    <div class="card">
-        <h2>DOWNLOAD</h2>
-        <button>Download</button>
-    </div>
-</div>
+<div class="section" id="download"><div class="card"><h2>DOWNLOAD</h2><button>Download</button></div></div>
 
 <div class="section" id="donate">
     <div class="card">
         <h2>DONATE / PLANS</h2>
-
         <div class="plans">
+
             <div class="plan active">
                 <h3>BASIC</h3>
                 <p class="price">FREE</p>
@@ -310,6 +300,7 @@ input {
                 <p>Full system access</p>
                 <button>Buy</button>
             </div>
+
         </div>
     </div>
 </div>
@@ -318,29 +309,31 @@ input {
     <div class="card">
         <h2>PRIVACY POLICY</h2>
         <div class="privacy">
+
             <h3>1. Information We Collect</h3>
             <p>We collect only the data necessary to operate and improve the system...</p>
 
             <h3>2. How We Use Data</h3>
-            <p>Your data is used strictly for system operation and improvement...</p>
+            <p>Your data is used strictly for system operation...</p>
 
             <h3>3. AI Processing</h3>
-            <p>All interactions are processed automatically by AI systems...</p>
+            <p>AI processes input automatically...</p>
 
             <h3>4. Data Retention</h3>
-            <p>Data is stored only as long as necessary...</p>
+            <p>Stored only as needed...</p>
 
             <h3>5. Data Sharing</h3>
-            <p>We do not sell or trade personal data...</p>
+            <p>No selling or trading data...</p>
 
             <h3>6. Security</h3>
-            <p>We use encryption and security measures...</p>
+            <p>Encryption and monitoring used...</p>
 
             <h3>7. Your Rights</h3>
-            <p>You can request access or deletion of data...</p>
+            <p>You can request deletion...</p>
 
             <h3>8. Contact</h3>
             <p>support@jarvis.ai</p>
+
         </div>
     </div>
 </div>
@@ -355,8 +348,8 @@ input {
 <div class="modal" id="loginModal">
     <div class="modal-content">
         <h3>LOGIN</h3>
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="Password">
+        <input type="text">
+        <input type="password">
         <button onclick="closeLogin()">Enter</button>
     </div>
 </div>
