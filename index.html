@@ -70,6 +70,23 @@ body {
     padding-top: 60px;
 }
 
+nav {
+    position: relative;
+    display: flex;
+    gap: 15px;
+}
+
+nav .indicator {
+    position: absolute;
+    top: -5px;
+    height: 30px;
+    border: 1px solid #00f7ff55;
+    background: rgba(0, 247, 255, 0.08);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    z-index: 0;
+}
+
 /* LOGIN ICON */
 .login-icon {
     border: 1px solid #00f7ff;
@@ -266,8 +283,11 @@ input {
 
 <header>
     <h2>JARVIS</h2>
+
     <div>
         <nav>
+            <div class="indicator"></div>
+
             <a href="#about">ABOUT US</a>
             <a href="#download">DOWNLOAD</a>
             <a href="#donate">DONATE</a>
@@ -275,6 +295,7 @@ input {
             <a href="#contact">CONTACT</a>
         </nav>
     </div>
+
     <div class="login-icon" onclick="openLogin()">LOGIN</div>
 </header>
 
