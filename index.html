@@ -350,7 +350,7 @@ window.addEventListener('scroll', () => {
     });
 });
 
-/* === ADDED INDICATOR LOGIC === */
+/* === NAV INDICATOR === */
 const links = document.querySelectorAll("nav a");
 const indicator = document.querySelector(".indicator");
 
@@ -367,40 +367,47 @@ window.addEventListener("load", () => {
     if(links[0]) moveIndicator(links[0]);
 });
 
-/* === TEST ACCOUNT SYSTEM === */
 
-const TEST_USER = {
-    login: "admin",
-    password: "1234",
-    plan: "plus" // basic / plus / pro
-};
+/* ================================
+   🔐 TEST ACCOUNT SYSTEM
+================================ */
 
-// обработка логина
-document.querySelector(".modal-content button").onclick = function () {
-
-    const inputs = document.querySelectorAll(".modal-content input");
-    const login = inputs[0].value;
-    const pass = inputs[1].value;
-
-    if (login === TEST_USER.login && pass === TEST_USER.password) {
-        applyPlan(TEST_USER.plan);
-        closeLogin();
-    } else {
-        alert("Wrong login or password");
+const TEST_ACCOUNTS = {
+    admin: {
+        password: "1234",
+        plan: "plus"
     }
 };
 
-// применение подписки (выделение плана)
+// login обработка
+document.addEventListener("DOMContentLoaded", () => {
+
+    const loginBtn = document.querySelector(".modal-content button");
+
+    loginBtn.addEventListener("click", () => {
+
+        const inputs = document.querySelectorAll(".modal-content input");
+        const login = inputs[0].value;
+        const pass = inputs[1].value;
+
+        const user = TEST_ACCOUNTS[login];
+
+        if (!user || user.password !== pass) {
+            alert("Wrong login or password");
+            return;
+        }
+
+        applyPlan(user.plan);
+        closeLogin();
+    });
+});
+
+// применение подписки
 function applyPlan(plan) {
 
     const plans = document.querySelectorAll(".plan");
 
-    // убрать старое выделение
     plans.forEach(p => p.classList.remove("active"));
-
-    // BASIC = 0
-    // PLUS = 1
-    // PRO = 2
 
     if (plan === "basic") {
         plans[0].classList.add("active");
@@ -413,13 +420,8 @@ function applyPlan(plan) {
     if (plan === "pro") {
         plans[2].classList.add("active");
     }
-</script>
-
-</body>
-</html>
 }
 
 </script>
-
 </body>
 </html>
