@@ -379,27 +379,23 @@ const TEST_ACCOUNTS = {
     }
 };
 
-// login обработка
-document.addEventListener("DOMContentLoaded", () => {
+document.querySelector(".modal-content button").addEventListener("click", () => {
 
-    const loginBtn = document.querySelector(".modal-content button");
+    const inputs = document.querySelectorAll(".modal-content input");
+    const login = inputs[0].value;
+    const pass = inputs[1].value;
 
-    loginBtn.addEventListener("click", () => {
+    const user = TEST_ACCOUNTS[login];
 
-        const inputs = document.querySelectorAll(".modal-content input");
-        const login = inputs[0].value;
-        const pass = inputs[1].value;
+    if (!user || user.password !== pass) {
+        alert("Wrong login or password");
+        return;
+    }
 
-        const user = TEST_ACCOUNTS[login];
+    // 🔥 ВАЖНО: применяем план СРАЗУ
+    applyPlan(user.plan);
 
-        if (!user || user.password !== pass) {
-            alert("Wrong login or password");
-            return;
-        }
-
-        applyPlan(user.plan);
-        closeLogin();
-    });
+    closeLogin();
 });
 
 // применение подписки
@@ -407,54 +403,35 @@ function applyPlan(plan) {
 
     const plans = document.querySelectorAll(".plan");
 
-    // сброс всех
+    // reset ВСЕХ
     plans.forEach(p => {
         p.classList.remove("active");
 
         const btn = p.querySelector("button");
-
         if (btn) {
             btn.disabled = false;
             btn.textContent = "Buy";
         }
     });
 
-    // активируем нужный план
-    if (plan === "basic") {
-        const p = plans[0];
+    let index = 0;
 
-        p.classList.add("active");
+    if (plan === "basic") index = 0;
+    if (plan === "plus") index = 1;
+    if (plan === "pro") index = 2;
 
-        const btn = p.querySelector("button");
-        if (btn) {
-            btn.disabled = true;
-            btn.textContent = "Activated";
-        }
+    const selected = plans[index];
+
+    if (!selected) return;
+
+    selected.classList.add("active");
+
+    const btn = selected.querySelector("button");
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Activated";
     }
-
-    if (plan === "plus") {
-        const p = plans[1];
-
-        p.classList.add("active");
-
-        const btn = p.querySelector("button");
-        if (btn) {
-            btn.disabled = true;
-            btn.textContent = "Activated";
-        }
-    }
-
-    if (plan === "pro") {
-        const p = plans[2];
-
-        p.classList.add("active");
-
-        const btn = p.querySelector("button");
-        if (btn) {
-            btn.disabled = true;
-            btn.textContent = "Activated";
-        }
-    }
+}
 
 </script>
 </body>
