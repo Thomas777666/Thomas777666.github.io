@@ -407,18 +407,39 @@ function applyPlan(plan) {
 
     const plans = document.querySelectorAll(".plan");
 
-    plans.forEach(p => p.classList.remove("active"));
+    // сброс всех
+    plans.forEach(p => {
+        p.classList.remove("active");
 
+        const status = p.querySelector(".status");
+        if (status) status.textContent = "";
+    });
+
+    // BASIC
     if (plan === "basic") {
-        plans[0].classList.add("active");
+        const p = plans[0];
+        p.classList.add("active");
+
+        const status = p.querySelector(".status");
+        if (status) status.textContent = "ACTIVE";
     }
 
+    // PLUS
     if (plan === "plus") {
-        plans[1].classList.add("active");
+        const p = plans[1];
+        p.classList.add("active");
+
+        const status = p.querySelector(".status");
+        if (status) status.textContent = "ACTIVE";
     }
 
+    // PRO
     if (plan === "pro") {
-        plans[2].classList.add("active");
+        const p = plans[2];
+        p.classList.add("active");
+
+        const status = p.querySelector(".status");
+        if (status) status.textContent = "ACTIVE";
     }
 }
 
