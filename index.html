@@ -366,17 +366,17 @@ links.forEach(link => {
 window.addEventListener("load", () => {
     if(links[0]) moveIndicator(links[0]);
 });
-</script>
-// === TEST ACCOUNT SYSTEM ===
+<script>
 
-// тестовый аккаунт
+// твой код (openLogin, scroll, indicator и т.д.)
+
+// === TEST ACCOUNT SYSTEM ===
 const TEST_USER = {
     login: "admin",
     password: "1234",
-    plan: "plus" // basic / plus / pro
+    plan: "plus"
 };
 
-// кнопка входа
 document.querySelector(".modal-content button").onclick = function() {
     const inputs = document.querySelectorAll(".modal-content input");
     const login = inputs[0].value;
@@ -390,7 +390,6 @@ document.querySelector(".modal-content button").onclick = function() {
     }
 };
 
-// применение подписки
 function applyPlan(plan) {
     document.querySelectorAll(".plan").forEach(p => p.classList.remove("active"));
 
@@ -404,6 +403,8 @@ function applyPlan(plan) {
         document.querySelectorAll(".plan")[2].classList.add("active");
     }
 }
+
+</script>
 
 </body>
 </html>
