@@ -373,18 +373,22 @@ window.addEventListener("load", () => {
 ================================ */
 
 const TEST_ACCOUNTS = {
-    owner: {
-        password: "3333",
+
+    admin: {
+        password: "1234",
         plan: "pro"
     },
-    admin {
-        password: "2222",
-        plan: "plus"
-    },
+
     user: {
         password: "1111",
+        plan: "plus"
+    },
+
+    guest: {
+        password: "0000",
         plan: "basic"
     }
+
 };
 
 document.querySelector(".modal-content button").addEventListener("click", () => {
