@@ -403,7 +403,6 @@ function applyPlan(plan) {
 
     const plans = document.querySelectorAll(".plan");
 
-    // reset ВСЕХ
     plans.forEach(p => {
         p.classList.remove("active");
 
@@ -414,19 +413,17 @@ function applyPlan(plan) {
         }
     });
 
-    let index = 0;
+    let target = null;
 
-    if (plan === "basic") index = 0;
-    if (plan === "plus") index = 1;
-    if (plan === "pro") index = 2;
+    if (plan === "basic") target = plans[0];
+    if (plan === "plus") target = plans[1];
+    if (plan === "pro") target = plans[2];
 
-    const selected = plans[index];
+    if (!target) return;
 
-    if (!selected) return;
+    target.classList.add("active");
 
-    selected.classList.add("active");
-
-    const btn = selected.querySelector("button");
+    const btn = target.querySelector("button");
     if (btn) {
         btn.disabled = true;
         btn.textContent = "Activated";
