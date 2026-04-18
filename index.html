@@ -366,6 +366,54 @@ links.forEach(link => {
 window.addEventListener("load", () => {
     if(links[0]) moveIndicator(links[0]);
 });
+
+/* === TEST ACCOUNT SYSTEM === */
+
+const TEST_USER = {
+    login: "admin",
+    password: "1234",
+    plan: "plus" // basic / plus / pro
+};
+
+// обработка логина
+document.querySelector(".modal-content button").onclick = function () {
+
+    const inputs = document.querySelectorAll(".modal-content input");
+    const login = inputs[0].value;
+    const pass = inputs[1].value;
+
+    if (login === TEST_USER.login && pass === TEST_USER.password) {
+        applyPlan(TEST_USER.plan);
+        closeLogin();
+    } else {
+        alert("Wrong login or password");
+    }
+};
+
+// применение подписки (выделение плана)
+function applyPlan(plan) {
+
+    const plans = document.querySelectorAll(".plan");
+
+    // убрать старое выделение
+    plans.forEach(p => p.classList.remove("active"));
+
+    // BASIC = 0
+    // PLUS = 1
+    // PRO = 2
+
+    if (plan === "basic") {
+        plans[0].classList.add("active");
+    }
+
+    if (plan === "plus") {
+        plans[1].classList.add("active");
+    }
+
+    if (plan === "pro") {
+        plans[2].classList.add("active");
+    }
+}
 </script>
 
 </body>
