@@ -411,37 +411,50 @@ function applyPlan(plan) {
     plans.forEach(p => {
         p.classList.remove("active");
 
-        const status = p.querySelector(".status");
-        if (status) status.textContent = "";
+        const btn = p.querySelector("button");
+
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Buy";
+        }
     });
 
-    // BASIC
+    // активируем нужный план
     if (plan === "basic") {
         const p = plans[0];
+
         p.classList.add("active");
 
-        const status = p.querySelector(".status");
-        if (status) status.textContent = "ACTIVE";
+        const btn = p.querySelector("button");
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Activated";
+        }
     }
 
-    // PLUS
     if (plan === "plus") {
         const p = plans[1];
+
         p.classList.add("active");
 
-        const status = p.querySelector(".status");
-        if (status) status.textContent = "ACTIVE";
+        const btn = p.querySelector("button");
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Activated";
+        }
     }
 
-    // PRO
     if (plan === "pro") {
         const p = plans[2];
+
         p.classList.add("active");
 
-        const status = p.querySelector(".status");
-        if (status) status.textContent = "ACTIVE";
+        const btn = p.querySelector("button");
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Activated";
+        }
     }
-}
 
 </script>
 </body>
