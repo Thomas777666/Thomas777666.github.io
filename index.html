@@ -367,6 +367,43 @@ window.addEventListener("load", () => {
     if(links[0]) moveIndicator(links[0]);
 });
 </script>
+// === TEST ACCOUNT SYSTEM ===
+
+// тестовый аккаунт
+const TEST_USER = {
+    login: "admin",
+    password: "1234",
+    plan: "plus" // basic / plus / pro
+};
+
+// кнопка входа
+document.querySelector(".modal-content button").onclick = function() {
+    const inputs = document.querySelectorAll(".modal-content input");
+    const login = inputs[0].value;
+    const pass = inputs[1].value;
+
+    if (login === TEST_USER.login && pass === TEST_USER.password) {
+        applyPlan(TEST_USER.plan);
+        closeLogin();
+    } else {
+        alert("Wrong login or password");
+    }
+};
+
+// применение подписки
+function applyPlan(plan) {
+    document.querySelectorAll(".plan").forEach(p => p.classList.remove("active"));
+
+    if (plan === "basic") {
+        document.querySelectorAll(".plan")[0].classList.add("active");
+    }
+    if (plan === "plus") {
+        document.querySelectorAll(".plan")[1].classList.add("active");
+    }
+    if (plan === "pro") {
+        document.querySelectorAll(".plan")[2].classList.add("active");
+    }
+}
 
 </body>
 </html>
