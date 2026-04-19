@@ -310,13 +310,13 @@ input {
                 <p class="price">FREE</p>
                 <p>The free version</p>
                 <button>Activated</button>
-        </div>
+            </div>
 
             <div class="plan">
                 <h3>PLUS</h3>
                 <p class="price">$5 / month</p>
                 <p>More features unlocked</p>
-               <button>Buy</button>
+                <button>Buy</button>
             </div>
 
             <div class="plan pro">
@@ -462,22 +462,20 @@ function applyPlan(plan) {
     const btn = target.querySelector("button");
 
     if (btn) {
-    btn.textContent = "Activated";
+        btn.disabled = false;
+        btn.textContent = "Activated";
 
-    // обязательно сначала удалить старый обработчик
-    btn.replaceWith(btn.cloneNode(true));
-
-    const newBtn = target.querySelector("button");
-
-    newBtn.onclick = () => {
-        if (CURRENT_USER && CURRENT_USER.key) {
-            alert("Your key: " + CURRENT_USER.key);
-        } else {
-            alert("No key found");
-        }
-    };
+        // 🔥 КЛИК ПОКАЗЫВАЕТ КЛЮЧ
+        btn.onclick = () => {
+            if (CURRENT_USER && CURRENT_USER.key) {
+                alert("Your key: " + CURRENT_USER.key);
+            } else {
+                alert("No key found");
+            }
+        };
+    }
 }
 
 </script>
 </body>
-</html>
+</html>   
