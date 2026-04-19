@@ -397,17 +397,22 @@ const TEST_ACCOUNTS = {
 
     admin: {
         password: "1234",
-        plan: "pro"
+        plan: "pro",
+        key: "SPARK-PRO-FULL"
     },
     user: {
         password: "1111",
-        plan: "plus"
+        plan: "plus",
+        key: "SPARK-PLUS-ONE"
     },
     guest: {
         password: "0000",
-        plan: "basic"
+        plan: "basic",
+        key: "SPARK-FREE-NOW"
     }
 };
+
+let CURRENT_USER = null;
 
 document.querySelector(".modal-content button").addEventListener("click", () => {
 
@@ -422,12 +427,12 @@ document.querySelector(".modal-content button").addEventListener("click", () => 
         return;
     }
 
-    // 🔥 ВАЖНО: применяем план СРАЗУ
+    CURRENT_USER = user; // сохраняем текущего пользователя
+
     applyPlan(user.plan);
 
     closeLogin();
 });
-
 // применение подписки
 function applyPlan(plan) {
 
@@ -440,6 +445,7 @@ function applyPlan(plan) {
         if (btn) {
             btn.disabled = false;
             btn.textContent = "Buy";
+            btn.onclick = null; // сброс клика
         }
     });
 
@@ -454,9 +460,19 @@ function applyPlan(plan) {
     target.classList.add("active");
 
     const btn = target.querySelector("button");
+
     if (btn) {
-        btn.disabled = true;
+        btn.disabled = false;
         btn.textContent = "Activated";
+
+        // 🔥 КЛИК ПОКАЗЫВАЕТ КЛЮЧ
+        btn.onclick = () => {
+            if (CURRENT_USER && CURRENT_USER.key) {
+                alert("Your key: " + CURRENT_USER.key);
+            } else {
+                alert("No key found");
+            }
+        };
     }
 }
 
