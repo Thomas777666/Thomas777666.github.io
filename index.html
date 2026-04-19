@@ -307,9 +307,9 @@ input {
         <div class="plans">
             <div class="plan active">
                 <h3>BASIC</h3>
-                <p class="price">FREE</p>
-                <p>The free version</p>
-                <button disabled>Activated</button>
+               <p class="price">FREE</p>
+               <p>The free version</p>
+               <button>Activated</button>
             </div>
 
             <div class="plan">
@@ -462,18 +462,20 @@ function applyPlan(plan) {
     const btn = target.querySelector("button");
 
     if (btn) {
-        btn.disabled = false;
-        btn.textContent = "Activated";
+    btn.textContent = "Activated";
 
-        // 🔥 КЛИК ПОКАЗЫВАЕТ КЛЮЧ
-        btn.onclick = () => {
-            if (CURRENT_USER && CURRENT_USER.key) {
-                alert("Your key: " + CURRENT_USER.key);
-            } else {
-                alert("No key found");
-            }
-        };
-    }
+    // обязательно сначала удалить старый обработчик
+    btn.replaceWith(btn.cloneNode(true));
+
+    const newBtn = target.querySelector("button");
+
+    newBtn.onclick = () => {
+        if (CURRENT_USER && CURRENT_USER.key) {
+            alert("Your key: " + CURRENT_USER.key);
+        } else {
+            alert("No key found");
+        }
+    };
 }
 
 </script>
