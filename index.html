@@ -112,34 +112,6 @@ button:hover {
     box-shadow: 0 0 15px #00f7ff;
 }
 
-/* KEY WINDOW */
-.key-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.9);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.key-box {
-    background: #020617;
-    border: 1px solid #00f7ff;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 0 20px #00f7ff;
-}
-
-#keyText {
-    margin: 15px 0;
-    font-size: 18px;
-    color: #00ff88;
-}
-    
 /* PLANS */
 .plans {
     display: flex;
@@ -506,23 +478,6 @@ function applyPlan(plan) {
     };
 }
 
-function openKey(key){
-    document.getElementById("keyText").textContent = key;
-    document.getElementById("keyModal").style.display = "flex";
-}
-
-function closeKey(){
-    document.getElementById("keyModal").style.display = "none";
-}
 </script>
-
-<div class="key-modal" id="keyModal">
-    <div class="key-box">
-        <h3>Your Key</h3>
-        <p id="keyText"></p>
-        <button onclick="closeKey()">Close</button>
-    </div>
-</div>
-    
 </body>
-</html>
+</html>    
