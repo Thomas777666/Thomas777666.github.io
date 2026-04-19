@@ -307,9 +307,9 @@ input {
         <div class="plans">
             <div class="plan active">
                 <h3>BASIC</h3>
-               <p class="price">FREE</p>
-               <p>The free version</p>
-               <button>Activated</button>
+                <p class="price">FREE</p>
+                <p>The free version</p>
+                <button>Activated</button>
             </div>
 
             <div class="plan">
@@ -471,7 +471,7 @@ function applyPlan(plan) {
 
     newBtn.onclick = () => {
         if (CURRENT_USER && CURRENT_USER.key) {
-            openKey(CURRENT_USER.key);
+            alert("Your key: " + CURRENT_USER.key);
         } else {
             alert("No key found");
         }
@@ -480,4 +480,4 @@ function applyPlan(plan) {
 
 </script>
 </body>
-</html>    
+</html>
