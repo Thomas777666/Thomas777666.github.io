@@ -379,6 +379,16 @@ input {
     </div>
 </div>
 
+<!-- KEY MODAL -->
+<div class="key-modal" id="keyModal">
+    <div class="key-box">
+        <h3>Your Key</h3>
+        <p id="keyText"></p>
+        <button onclick="closeKey()">Close</button>
+    </div>
+</div>
+
+<script>
 <script>
 function openLogin(){
     document.getElementById('loginModal').style.display = 'flex';
@@ -512,15 +522,6 @@ function applyPlan(plan) {
     }
 }
 
-</script>
-
-<div class="key-modal" id="keyModal">
-    <div class="key-box">
-        <h3>Your Key</h3>
-        <p id="keyText"></p>
-        <button onclick="closeKey()">Close</button>
-    </div>
-</div>
-    
+</script>   
 </body>
 </html>   
