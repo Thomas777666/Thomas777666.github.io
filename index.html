@@ -95,6 +95,33 @@ nav .indicator {
     margin-top: 8px;
 }
 
+.key-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.key-box {
+    background: #020617;
+    border: 1px solid #00f7ff;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 20px #00f7ff;
+}
+
+#keyText {
+    margin: 15px 0;
+    font-size: 18px;
+    color: #00ff88;
+}
+
 /* BUTTON */
 button {
     margin-top: 20px;
@@ -360,6 +387,15 @@ function closeLogin(){
     document.getElementById('loginModal').style.display = 'none';
 }
 
+function openKey(key){
+    document.getElementById("keyText").textContent = key;
+    document.getElementById("keyModal").style.display = "flex";
+}
+
+function closeKey(){
+    document.getElementById("keyModal").style.display = "none";
+}
+
 /* SCROLL ANIMATION */
 const sections = document.querySelectorAll('.section');
 window.addEventListener('scroll', () => {
@@ -468,7 +504,7 @@ function applyPlan(plan) {
         // 🔥 КЛИК ПОКАЗЫВАЕТ КЛЮЧ
         btn.onclick = () => {
             if (CURRENT_USER && CURRENT_USER.key) {
-                alert("Your key: " + CURRENT_USER.key);
+                openKey(CURRENT_USER.key);
             } else {
                 alert("No key found");
             }
@@ -477,5 +513,14 @@ function applyPlan(plan) {
 }
 
 </script>
+
+<div class="key-modal" id="keyModal">
+    <div class="key-box">
+        <h3>Your Key</h3>
+        <p id="keyText"></p>
+        <button onclick="closeKey()">Close</button>
+    </div>
+</div>
+    
 </body>
 </html>   
