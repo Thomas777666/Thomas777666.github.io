@@ -13,14 +13,25 @@ body {
     background: radial-gradient(circle at center, #020617, #000000);
     color: #00f7ff;
     overflow-x: hidden;
+    padding-top: 100px;
 }
 
 /* HEADER */
 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 40px;
+
+    background: rgba(2, 6, 23, 0.9);
+    backdrop-filter: blur(8px);
+
     border-bottom: 1px solid #00f7ff33;
 }
 
@@ -62,6 +73,15 @@ nav .indicator {
     background: #00f7ff;
     box-shadow: 0 0 10px #00f7ff;
     transition: 0.3s ease;
+}
+
+nav a.active {
+    color: #00ff88;
+}
+
+nav a.active::after {
+    width: 100%;
+    background: #00ff88;
 }
 
 /* LOGIN ICON */
@@ -491,6 +511,16 @@ function closeKey(){
     document.getElementById("keyModal").style.display = "none";
 }
 
+function moveIndicatorToActive(){
+    const active = document.querySelector("nav a.active");
+    if (active) {
+        indicator.style.width = active.offsetWidth + "px";
+        indicator.style.left = active.offsetLeft + "px";
+    }
+}
+
+window.addEventListener("scroll", moveIndicatorToActive);
+
 /* SCROLL ANIMATION */
 const sections = document.querySelectorAll('.section');
 window.addEventListener('scroll', () => {
@@ -607,6 +637,29 @@ function applyPlan(plan) {
     }
 }
 
+const sectionsAll = document.querySelectorAll(".section");
+
+window.addEventListener("scroll", () => {
+    let current = "";
+
+    sectionsAll.forEach(sec => {
+        const top = sec.offsetTop - 140;
+        const height = sec.offsetHeight;
+
+        if (window.scrollY >= top && window.scrollY < top + height) {
+            current = sec.getAttribute("id");
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active");
+        }
+    });
+});
+    
 </script>   
 </body>
 </html>   
