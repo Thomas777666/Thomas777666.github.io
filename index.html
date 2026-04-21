@@ -37,11 +37,12 @@ header {
 
 /* NAV */
 nav {
-    position: absolute;
+    position: relative;   /* или вообще убери position */
     display: flex;
-    flex: 1;               /* занимает доступное место */
-    overflow: hidden;      /* обрезает лишнее */
-    white-space: nowrap;   /* не переносит строки */
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 75%;
 }
 nav a {
     margin: 0 10px;        /* уменьшили отступ */
