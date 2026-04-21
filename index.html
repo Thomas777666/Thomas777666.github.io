@@ -25,9 +25,11 @@ header {
     z-index: 1000;
 
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
+    justify-content: space-between;
+
+    padding: 20px 40px; /* было 20px 40px → стало меньше */
+    height: 60px; /* фиксируем высоту */
 
     background: rgba(2, 6, 23, 0.9);
     backdrop-filter: blur(8px);
@@ -87,9 +89,13 @@ nav a.active::after {
 /* LOGIN ICON */
 .login-icon {
     border: 1px solid #00f7ff;
-    padding: 8px 12px;
+    padding: 6px 10px;          /* чуть меньше */
     cursor: pointer;
     transition: 0.3s;
+
+    white-space: nowrap;        /* запрещает перенос */
+    font-size: 14px;            /* уменьшает текст */
+    flex-shrink: 0;             /* не сжимается */
 }
 
 .login-icon:hover {
