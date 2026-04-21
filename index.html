@@ -26,13 +26,12 @@ header {
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
-    padding: 12px 30px;
-    height: 70px;
+    padding: 10px 20px;
+    height: 60px;
 
     background: rgba(2, 6, 23, 0.9);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
 
     border-bottom: 1px solid #00f7ff33;
 }
@@ -41,24 +40,13 @@ header {
 nav {
     position: relative;
     display: flex;
-    gap: 25px;
-    margin: 0 auto;
-
-    flex: 1;                  /* занимает центр */
-    justify-content: center;  /* центрирует ссылки */
-    overflow: hidden;         /* обрезает лишнее */
 }
 
-nav {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    margin: 0 8px;
-    font-size: 16px;
-    font-weight: 500;
+nav a {
+    margin: 0 15px;
     text-decoration: none;
     color: #00f7ff;
+    position: relative;
 }
 
 nav a::after {
@@ -100,14 +88,13 @@ nav a.active::after {
 /* LOGIN ICON */
 .login-icon {
     border: 1px solid #00f7ff;
-    padding: 6px 14px;          /* чуть меньше */
+    padding: 6px 10px;          /* чуть меньше */
     cursor: pointer;
     transition: 0.3s;
 
     white-space: nowrap;        /* запрещает перенос */
     font-size: 14px;            /* уменьшает текст */
     flex-shrink: 0;             /* не сжимается */
-    flex: 0 0 auto;
 }
 
 .login-icon:hover {
