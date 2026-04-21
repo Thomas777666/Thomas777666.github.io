@@ -18,16 +18,14 @@ body {
 
 /* HEADER */
 header {
-    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
     padding: 10px 20px;
     height: 60px;
 
@@ -41,10 +39,13 @@ header {
 nav {
     position: relative;
     display: flex;
+    flex: 1;               /* занимает доступное место */
+    overflow: hidden;      /* обрезает лишнее */
+    white-space: nowrap;   /* не переносит строки */
 }
-
 nav a {
-    margin: 0 15px;
+    margin: 0 10px;        /* уменьшили отступ */
+    flex-shrink: 0;
     text-decoration: none;
     color: #00f7ff;
     position: relative;
@@ -87,22 +88,25 @@ nav a.active::after {
 }
 
 /* LOGIN ICON */
+/* LOGIN ICON */
 .login-icon {
     border: 1px solid #00f7ff;
-    padding: 6px 8px;          /* чуть меньше */
+    padding: 5px 7px;       /* чуть компактнее */
     cursor: pointer;
     transition: 0.3s;
 
-    white-space: nowrap;        /* запрещает перенос */
-    font-size: 14px;            /* уменьшает текст */
-    flex-shrink: 0;             /* не сжимается */
+    white-space: nowrap;
+    font-size: 13px;
+
+    flex-shrink: 0;         /* оставляем — чтобы не исчезала */
+    margin-left: auto;      /* 🔥 главное — прижимает вправо */
 }
 
 .login-icon:hover {
     background: #00f7ff;
     color: black;
 }
-
+    
 .center-panel {
     position: relative;
     margin-top: 60px;
