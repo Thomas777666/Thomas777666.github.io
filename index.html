@@ -18,16 +18,16 @@ body {
 
 /* HEADER */
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    padding: 10px 20px;
-    height: 60px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
 
     background: rgba(2, 6, 23, 0.9);
     backdrop-filter: blur(8px);
@@ -37,16 +37,12 @@ header {
 
 /* NAV */
 nav {
-    position: relative;   /* или вообще убери position */
+    position: relative;
     display: flex;
-    flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: 75%;
 }
+
 nav a {
-    margin: 0 10px;        /* уменьшили отступ */
-    flex-shrink: 0;
+    margin: 0 15px;
     text-decoration: none;
     color: #00f7ff;
     position: relative;
@@ -89,25 +85,18 @@ nav a.active::after {
 }
 
 /* LOGIN ICON */
-/* LOGIN ICON */
 .login-icon {
     border: 1px solid #00f7ff;
-    padding: 5px 7px;       /* чуть компактнее */
+    padding: 8px 12px;
     cursor: pointer;
     transition: 0.3s;
-
-    white-space: nowrap;
-    font-size: 13px;
-
-    flex-shrink: 0;         /* оставляем — чтобы не исчезала */
-    margin-left: auto;      /* 🔥 главное — прижимает вправо */
 }
 
 .login-icon:hover {
     background: #00f7ff;
     color: black;
 }
-    
+
 .center-panel {
     position: relative;
     margin-top: 60px;
@@ -522,16 +511,6 @@ function closeKey(){
     document.getElementById("keyModal").style.display = "none";
 }
 
-function moveIndicatorToActive(){
-    const active = document.querySelector("nav a.active");
-    if (active) {
-        indicator.style.width = active.offsetWidth + "px";
-        indicator.style.left = active.offsetLeft + "px";
-    }
-}
-
-window.addEventListener("scroll", moveIndicatorToActive);
-
 /* SCROLL ANIMATION */
 const sections = document.querySelectorAll('.section');
 window.addEventListener('scroll', () => {
@@ -544,7 +523,6 @@ window.addEventListener('scroll', () => {
 });
 
 /* === NAV INDICATOR === */
-const links = document.querySelectorAll("nav a");
 const indicator = document.querySelector(".indicator");
 
 function moveIndicator(el){
@@ -648,6 +626,7 @@ function applyPlan(plan) {
     }
 }
 
+const navLinks = document.querySelectorAll("nav a");
 const sectionsAll = document.querySelectorAll(".section");
 
 window.addEventListener("scroll", () => {
@@ -672,5 +651,4 @@ window.addEventListener("scroll", () => {
 });
     
 </script>   
-</body>
-</html>   
+</body>  
