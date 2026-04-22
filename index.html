@@ -38,28 +38,30 @@ header {
 
 /* NAV */
 nav {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%); /* идеальный центр */
-
+    position: relative;
     display: flex;
-    gap: 25px;
 }
 
 nav a {
+    margin: 0 15px;
     text-decoration: none;
     color: #00f7ff;
     position: relative;
+}
 
-    padding: 6px 14px;
-    border-radius: 8px;
-    z-index: 1;
-
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: #00f7ff;
+    left: 0;
+    bottom: -5px;
     transition: 0.3s;
 }
 
-nav a:hover {
-    background: rgba(0, 247, 255, 0.08);
+nav a:hover::after {
+    width: 100%;
 }
 
 /* === ADDED INDICATOR === */
@@ -71,10 +73,20 @@ nav .indicator {
     width: 0;
     background: #00f7ff;
     box-shadow: 0 0 10px #00f7ff;
-    transform: translateX(0);
+    transition: 0.3s ease;
+}
+
+nav a.active {
+    color: #00ff88;
+}
+
+nav a.active::after {
+    width: 100%;
+    background: #00ff88;
 }
 
 /* LOGIN ICON */
+
 .login-icon {
     position: absolute;
     right: 66px; /* фикс справа */
@@ -132,10 +144,8 @@ nav .indicator {
 }
 
 .logo-small {
-    height: 60px;
     width: 200px;
-    position: relative;
-    z-index: 2;
+    height: auto;
 }
 
 .logo-big {
