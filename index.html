@@ -65,19 +65,16 @@ nav a:hover {
 /* === ADDED INDICATOR === */
 nav .indicator {
     position: absolute;
-    top: 0;                 /* теперь СВЕРХУ */
+    bottom: -6px;   /* линия СНИЗУ */
     left: 0;
 
-    height: 100%;
+    height: 2px;    /* тонкая линия */
     width: 0;
 
-    background: rgba(0, 247, 255, 0.15);
-    border-radius: 10px;
-
-    box-shadow: 0 0 10px #00f7ff55;
+    background: #00f7ff;
+    box-shadow: 0 0 10px #00f7ff;
 
     transition: 0.3s ease;
-    z-index: -1; /* чтобы текст был сверху */
 }
 
 nav a.active {
@@ -537,22 +534,33 @@ window.addEventListener('scroll', () => {
 });
 
 /* === NAV INDICATOR === */
+const links = document.querySelectorAll("nav a");
 const indicator = document.querySelector(".indicator");
 
 function moveIndicator(el){
     indicator.style.width = el.offsetWidth + "px";
     indicator.style.left = el.offsetLeft + "px";
-    indicator.style.height = el.offsetHeight + "px";
 }
 
+// КЛИК
 links.forEach(link => {
-    link.addEventListener("click", () => moveIndicator(link));
+    link.addEventListener("click", () => {
+
+        links.forEach(l => l.classList.remove("active"));
+
+        link.classList.add("active");
+
+        moveIndicator(link);
+    });
 });
 
+// ЗАГРУЗКА
 window.addEventListener("load", () => {
-    if(links[0]) moveIndicator(links[0]);
+    if (links[0]) {
+        links[0].classList.add("active");
+        moveIndicator(links[0]);
+    }
 });
-
 
 /* ================================
    🔐 TEST ACCOUNT SYSTEM
