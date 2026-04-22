@@ -38,30 +38,28 @@ header {
 
 /* NAV */
 nav {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* идеальный центр */
+
     display: flex;
+    gap: 25px;
 }
 
 nav a {
-    margin: 0 15px;
     text-decoration: none;
     color: #00f7ff;
     position: relative;
-}
 
-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    background: #00f7ff;
-    left: 0;
-    bottom: -5px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    z-index: 1;
+
     transition: 0.3s;
 }
 
-nav a:hover::after {
-    width: 100%;
+nav a:hover {
+    background: rgba(0, 247, 255, 0.08);
 }
 
 /* === ADDED INDICATOR === */
@@ -69,14 +67,19 @@ nav .indicator {
     position: absolute;
     bottom: -6px;
     left: 0;
+
     height: 2px;
     width: 0;
+
     background: #00f7ff;
     box-shadow: 0 0 10px #00f7ff;
+
     transition: 0.3s ease;
 }
 
 nav a.active {
+    background: rgba(0, 247, 255, 0.18);
+    box-shadow: 0 0 10px #00f7ff66;
     color: #00ff88;
 }
 
@@ -86,7 +89,6 @@ nav a.active::after {
 }
 
 /* LOGIN ICON */
-
 .login-icon {
     position: absolute;
     right: 66px; /* фикс справа */
@@ -144,8 +146,10 @@ nav a.active::after {
 }
 
 .logo-small {
+    height: 60px;
     width: 200px;
-    height: auto;
+    position: relative;
+    z-index: 2;
 }
 
 .logo-big {
@@ -533,52 +537,29 @@ window.addEventListener('scroll', () => {
 const links = document.querySelectorAll("nav a");
 const indicator = document.querySelector(".indicator");
 
-let targetX = 0;
-let targetW = 0;
-
-let currentX = 0;
-let currentW = 0;
-
-function setTarget(el) {
-    const navRect = el.parentElement.getBoundingClientRect();
-    const elRect = el.getBoundingClientRect();
-
-    targetX = elRect.left - navRect.left;
-    targetW = elRect.width;
+function moveIndicator(el){
+    indicator.style.width = el.offsetWidth + "px";
+    indicator.style.left = el.offsetLeft + "px";
 }
 
-function animate() {
-    // easing (Apple-like smooth follow)
-    currentX += (targetX - currentX) * 0.12;
-    currentW += (targetW - currentW) * 0.12;
-
-    indicator.style.transform = `translateX(${currentX}px)`;
-    indicator.style.width = currentW + "px";
-
-    requestAnimationFrame(animate);
-}
-
-// click handler
+// КЛИК
 links.forEach(link => {
-    link.addEventListener("click", (e) => {
-
-        e.preventDefault();
+    link.addEventListener("click", () => {
 
         links.forEach(l => l.classList.remove("active"));
+
         link.classList.add("active");
 
-        setTarget(link);
+        moveIndicator(link);
     });
 });
-
-// init
+    
+// ЗАГРУЗКА
 window.addEventListener("load", () => {
     if (links[0]) {
         links[0].classList.add("active");
-        setTarget(links[0]);
+        moveIndicator(links[0]);
     }
-
-    animate();
 });
 
 /* ================================
@@ -671,6 +652,26 @@ function applyPlan(plan) {
 const navLinks = document.querySelectorAll("nav a");
 const sectionsAll = document.querySelectorAll(".section");
 
+window.addEventListener("scroll", () => {
+    let current = "";
+
+    sectionsAll.forEach(sec => {
+        const top = sec.offsetTop - 140;
+        const height = sec.offsetHeight;
+
+        if (window.scrollY >= top && window.scrollY < top + height) {
+            current = sec.getAttribute("id");
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active");
+        }
+    });
+});
     
 </script>   
-</body>  
+</body>    так?
