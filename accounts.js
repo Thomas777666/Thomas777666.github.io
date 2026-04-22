@@ -2,7 +2,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SUPABASE_URL = "https://evkvhufdgdzwydqgbqlw.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_6PU1v-7-HZiUMBm-e3hb4Q_86_8iSrc";
-const EMAIL_DOMAIN = "sparky.local";
+const EMAIL_DOMAIN = "sparky.example.com";
 
 const PLAN_PREFIX = {
     basic: "BASIC",
@@ -140,3 +140,4 @@ window.SparkyAccounts = {
     getCurrentProfile,
     signOut
 };
+
