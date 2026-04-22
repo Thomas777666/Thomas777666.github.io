@@ -546,19 +546,14 @@ function moveIndicator(el){
 links.forEach(link => {
     link.addEventListener("click", () => {
 
-        // убираем старый активный
         links.forEach(l => l.classList.remove("active"));
 
-        // ставим новый
-        link.classList.add("active");
-        if (link.getAttribute("href") === "#" + current) {
         link.classList.add("active");
 
-        // двигаем линию
         moveIndicator(link);
     });
 });
-
+    
 // ЗАГРУЗКА
 window.addEventListener("load", () => {
     if (links[0]) {
