@@ -71,7 +71,7 @@ nav .indicator {
     width: 0;
     background: #00f7ff;
     box-shadow: 0 0 10px #00f7ff;
-    transition: 0.3s ease;
+    transform: translateX(0);
 }
 
 /* LOGIN ICON */
@@ -520,19 +520,55 @@ window.addEventListener('scroll', () => {
 });
 
 /* === NAV INDICATOR === */
+const links = document.querySelectorAll("nav a");
 const indicator = document.querySelector(".indicator");
 
-function moveIndicator(el){
-    indicator.style.width = el.offsetWidth + "px";
-    indicator.style.left = el.offsetLeft + "px";
+let targetX = 0;
+let targetW = 0;
+
+let currentX = 0;
+let currentW = 0;
+
+function setTarget(el) {
+    const navRect = el.parentElement.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+
+    targetX = elRect.left - navRect.left;
+    targetW = elRect.width;
 }
 
+function animate() {
+    // easing (Apple-like smooth follow)
+    currentX += (targetX - currentX) * 0.12;
+    currentW += (targetW - currentW) * 0.12;
+
+    indicator.style.transform = `translateX(${currentX}px)`;
+    indicator.style.width = currentW + "px";
+
+    requestAnimationFrame(animate);
+}
+
+// click handler
 links.forEach(link => {
-    link.addEventListener("click", () => moveIndicator(link));
+    link.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        links.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+
+        setTarget(link);
+    });
 });
 
+// init
 window.addEventListener("load", () => {
-    if(links[0]) moveIndicator(links[0]);
+    if (links[0]) {
+        links[0].classList.add("active");
+        setTarget(links[0]);
+    }
+
+    animate();
 });
 
 /* ================================
