@@ -22,24 +22,28 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
+    height: 70px;
 
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    height: 60px;
+
+    padding: 0 30px;
 
     background: rgba(2, 6, 23, 0.9);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
 
     border-bottom: 1px solid #00f7ff33;
+    z-index: 1000;
 }
 
 /* NAV */
 nav {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* идеальный центр */
+
     display: flex;
+    gap: 25px;
 }
 
 nav a {
@@ -87,13 +91,15 @@ nav a.active::after {
 
 /* LOGIN ICON */
 .login-icon {
-    margin-left: 20px;
-    white-space: nowrap;
+    position: absolute;
+    right: 30px; /* фикс справа */
+    
     border: 1px solid #00f7ff;
-    padding: 10px 12px;
+    padding: 6px 14px;
     font-size: 14px;
+
+    white-space: nowrap;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 .login-icon:hover {
@@ -141,8 +147,9 @@ nav a.active::after {
 }
 
 .logo-small {
-    width: 200px;
-    height: auto;
+    height: 40px;
+    position: relative;
+    z-index: 2;
 }
 
 .logo-big {
