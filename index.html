@@ -14,6 +14,7 @@ body {
     color: #00f7ff;
     overflow-x: hidden;
     padding-top: 100px;
+    scroll-behavior: smooth;
 }
 
 /* HEADER */
@@ -40,7 +41,7 @@ header {
 nav {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%); /* идеальный центр */
+    transform: translateX(-50%); /* Р В Р’В Р РЋРІР‚ВР В Р’В Р СћРІР‚ВР В Р’В Р вЂ™Р’ВµР В Р’В Р вЂ™Р’В°Р В Р’В Р вЂ™Р’В»Р В Р Р‹Р В Р вЂ°Р В Р’В Р В РІР‚В¦Р В Р Р‹Р Р†Р вЂљРІвЂћвЂ“Р В Р’В Р Р†РІР‚С›РІР‚вЂњ Р В Р Р‹Р Р†Р вЂљР’В Р В Р’В Р вЂ™Р’ВµР В Р’В Р В РІР‚В¦Р В Р Р‹Р Р†Р вЂљРЎв„ўР В Р Р‹Р В РІР‚С™ */
 
     display: flex;
     gap: 25px;
@@ -52,46 +53,51 @@ nav a {
     position: relative;
 
     padding: 6px 14px;
-    border-radius: 8px;
     z-index: 1;
 
-    transition: 0.3s;
+    transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 nav a:hover {
-    background: rgba(0, 247, 255, 0.08);
+    opacity: 0.9;
 }
 
-/* === ADDED INDICATOR === */
-nav .indicator {
+nav a::after {
+    content: '';
     position: absolute;
-    bottom: -6px;
-    left: 0;
-
+    left: 8px;
+    right: 8px;
+    bottom: -8px;
     height: 2px;
-    width: 0;
-
+    border-radius: 999px;
     background: #00f7ff;
-    box-shadow: 0 0 10px #00f7ff;
+    box-shadow: 0 0 12px rgba(0, 247, 255, 0.85);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.28s ease, opacity 0.28s ease;
+    opacity: 0;
+}
 
-    transition: 0.3s ease;
+nav a:hover::after,
+nav a.active::after {
+    transform: scaleX(1);
+    opacity: 1;
 }
 
 nav a.active {
-    background: rgba(0, 247, 255, 0.18);
-    box-shadow: 0 0 10px #00f7ff66;
-    color: #00ff88;
+    background: transparent;
+    box-shadow: none;
+    color: #00f7ff;
 }
 
 nav a.active::after {
-    width: 100%;
-    background: #00ff88;
+    background: #00f7ff;
 }
 
 /* LOGIN ICON */
 .login-icon {
     position: absolute;
-    right: 66px; /* фикс справа */
+    right: 66px; /* Р В Р Р‹Р Р†Р вЂљРЎвЂєР В Р’В Р РЋРІР‚ВР В Р’В Р РЋРІР‚СњР В Р Р‹Р В РЎвЂњ Р В Р Р‹Р В РЎвЂњР В Р’В Р РЋРІР‚вЂќР В Р Р‹Р В РІР‚С™Р В Р’В Р вЂ™Р’В°Р В Р’В Р В РІР‚В Р В Р’В Р вЂ™Р’В° */
     
     border: 1px solid #00f7ff;
     padding: 6px 14px;
@@ -163,7 +169,7 @@ nav a.active::after {
     color: #00ff88;
 }
 
-/* ABOUT TEXT (только текст, НЕ заголовок) */
+/* ABOUT TEXT (Р В Р Р‹Р Р†Р вЂљРЎв„ўР В Р’В Р РЋРІР‚СћР В Р’В Р вЂ™Р’В»Р В Р Р‹Р В Р вЂ°Р В Р’В Р РЋРІР‚СњР В Р’В Р РЋРІР‚Сћ Р В Р Р‹Р Р†Р вЂљРЎв„ўР В Р’В Р вЂ™Р’ВµР В Р’В Р РЋРІР‚СњР В Р Р‹Р В РЎвЂњР В Р Р‹Р Р†Р вЂљРЎв„ў, Р В Р’В Р РЋРЎС™Р В Р’В Р Р†Р вЂљРЎС› Р В Р’В Р вЂ™Р’В·Р В Р’В Р вЂ™Р’В°Р В Р’В Р РЋРІР‚вЂњР В Р’В Р РЋРІР‚СћР В Р’В Р вЂ™Р’В»Р В Р’В Р РЋРІР‚СћР В Р’В Р В РІР‚В Р В Р’В Р РЋРІР‚СћР В Р’В Р РЋРІР‚Сњ) */
 #about p {
     color: #b8c1c7;
     line-height: 1.8;
@@ -347,9 +353,6 @@ input {
 
     <div>
         <nav>
-            <!-- ADDED -->
-            <div class="indicator"></div>
-
             <a href="#about">ABOUT US</a>
             <a href="#download">DOWNLOAD</a>
             <a href="#donate">DONATE</a>
@@ -533,37 +536,27 @@ window.addEventListener('scroll', () => {
     });
 });
 
-/* === NAV INDICATOR === */
+/* NAV ACTIVE STATE */
 const links = document.querySelectorAll("nav a");
-const indicator = document.querySelector(".indicator");
 
-function moveIndicator(el){
-    indicator.style.width = el.offsetWidth + "px";
-    indicator.style.left = el.offsetLeft + "px";
-}
-
-// КЛИК
 links.forEach(link => {
     link.addEventListener("click", () => {
-
         links.forEach(l => l.classList.remove("active"));
-
         link.classList.add("active");
-
-        moveIndicator(link);
     });
 });
-    
-// ЗАГРУЗКА
+
 window.addEventListener("load", () => {
-    if (links[0]) {
-        links[0].classList.add("active");
-        moveIndicator(links[0]);
-    }
+    const currentLink = [...links].find(link => link.getAttribute("href") === window.location.hash) || links[0];
+
+    if (!currentLink) return;
+
+    links.forEach(link => link.classList.remove("active"));
+    currentLink.classList.add("active");
 });
 
 /* ================================
-   🔐 TEST ACCOUNT SYSTEM
+   Р РЋР вЂљР РЋРЎСџР Р†Р вЂљРЎСљР РЋРІР‚в„ў TEST ACCOUNT SYSTEM
 ================================ */
 
 const TEST_ACCOUNTS = {
@@ -600,13 +593,13 @@ document.querySelector(".modal-content button").addEventListener("click", () => 
         return;
     }
 
-    CURRENT_USER = user; // сохраняем текущего пользователя
+    CURRENT_USER = user; // Р В Р Р‹Р В РЎвЂњР В Р’В Р РЋРІР‚СћР В Р Р‹Р Р†Р вЂљР’В¦Р В Р Р‹Р В РІР‚С™Р В Р’В Р вЂ™Р’В°Р В Р’В Р В РІР‚В¦Р В Р Р‹Р В Р РЏР В Р’В Р вЂ™Р’ВµР В Р’В Р РЋР’В Р В Р Р‹Р Р†Р вЂљРЎв„ўР В Р’В Р вЂ™Р’ВµР В Р’В Р РЋРІР‚СњР В Р Р‹Р РЋРІР‚СљР В Р Р‹Р Р†Р вЂљР’В°Р В Р’В Р вЂ™Р’ВµР В Р’В Р РЋРІР‚вЂњР В Р’В Р РЋРІР‚Сћ Р В Р’В Р РЋРІР‚вЂќР В Р’В Р РЋРІР‚СћР В Р’В Р вЂ™Р’В»Р В Р Р‹Р В Р вЂ°Р В Р’В Р вЂ™Р’В·Р В Р’В Р РЋРІР‚СћР В Р’В Р В РІР‚В Р В Р’В Р вЂ™Р’В°Р В Р Р‹Р Р†Р вЂљРЎв„ўР В Р’В Р вЂ™Р’ВµР В Р’В Р вЂ™Р’В»Р В Р Р‹Р В Р РЏ
 
     applyPlan(user.plan);
 
     closeLogin();
 });
-// применение подписки
+// Р В Р’В Р РЋРІР‚вЂќР В Р Р‹Р В РІР‚С™Р В Р’В Р РЋРІР‚ВР В Р’В Р РЋР’ВР В Р’В Р вЂ™Р’ВµР В Р’В Р В РІР‚В¦Р В Р’В Р вЂ™Р’ВµР В Р’В Р В РІР‚В¦Р В Р’В Р РЋРІР‚ВР В Р’В Р вЂ™Р’Вµ Р В Р’В Р РЋРІР‚вЂќР В Р’В Р РЋРІР‚СћР В Р’В Р СћРІР‚ВР В Р’В Р РЋРІР‚вЂќР В Р’В Р РЋРІР‚ВР В Р Р‹Р В РЎвЂњР В Р’В Р РЋРІР‚СњР В Р’В Р РЋРІР‚В
 function applyPlan(plan) {
 
     const plans = document.querySelectorAll(".plan");
@@ -618,7 +611,7 @@ function applyPlan(plan) {
         if (btn) {
             btn.disabled = false;
             btn.textContent = "Buy";
-            btn.onclick = null; // сброс клика
+            btn.onclick = null; // Р В Р Р‹Р В РЎвЂњР В Р’В Р вЂ™Р’В±Р В Р Р‹Р В РІР‚С™Р В Р’В Р РЋРІР‚СћР В Р Р‹Р В РЎвЂњ Р В Р’В Р РЋРІР‚СњР В Р’В Р вЂ™Р’В»Р В Р’В Р РЋРІР‚ВР В Р’В Р РЋРІР‚СњР В Р’В Р вЂ™Р’В°
         }
     });
 
@@ -638,7 +631,7 @@ function applyPlan(plan) {
         btn.disabled = false;
         btn.textContent = "Activated";
 
-        // 🔥 КЛИК ПОКАЗЫВАЕТ КЛЮЧ
+        // Р РЋР вЂљР РЋРЎСџР Р†Р вЂљРЎСљР СћРЎвЂ™ Р В Р’В Р РЋРІвЂћСћР В Р’В Р Р†Р вЂљРЎвЂќР В Р’В Р вЂ™Р’ВР В Р’В Р РЋРІвЂћСћ Р В Р’В Р РЋРЎСџР В Р’В Р РЋРІР‚С”Р В Р’В Р РЋРІвЂћСћР В Р’В Р РЋРІР‚в„ўР В Р’В Р Р†Р вЂљРІР‚СњР В Р’В Р вЂ™Р’В«Р В Р’В Р Р†Р вЂљРІвЂћСћР В Р’В Р РЋРІР‚в„ўР В Р’В Р Р†Р вЂљРЎС›Р В Р’В Р РЋРЎвЂє Р В Р’В Р РЋРІвЂћСћР В Р’В Р Р†Р вЂљРЎвЂќР В Р’В Р вЂ™Р’В®Р В Р’В Р вЂ™Р’В§
         btn.onclick = () => {
             if (CURRENT_USER && CURRENT_USER.key) {
                 openKey(CURRENT_USER.key);
@@ -649,29 +642,5 @@ function applyPlan(plan) {
     }
 }
 
-const navLinks = document.querySelectorAll("nav a");
-const sectionsAll = document.querySelectorAll(".section");
-
-window.addEventListener("scroll", () => {
-    let current = "";
-
-    sectionsAll.forEach(sec => {
-        const top = sec.offsetTop - 140;
-        const height = sec.offsetHeight;
-
-        if (window.scrollY >= top && window.scrollY < top + height) {
-            current = sec.getAttribute("id");
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove("active");
-
-        if (link.getAttribute("href") === "#" + current) {
-            link.classList.add("active");
-        }
-    });
-});
-    
 </script>   
-</body>   
+</body> 
