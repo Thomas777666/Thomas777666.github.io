@@ -67,13 +67,10 @@ nav .indicator {
     position: absolute;
     bottom: -6px;
     left: 0;
-
     height: 2px;
     width: 0;
-
     background: #00f7ff;
     box-shadow: 0 0 10px #00f7ff;
-
     transition: 0.3s ease;
 }
 
@@ -542,7 +539,6 @@ function moveIndicator(el){
     indicator.style.left = el.offsetLeft + "px";
 }
 
-// КЛИК
 links.forEach(link => {
     link.addEventListener("click", () => {
 
@@ -553,8 +549,7 @@ links.forEach(link => {
         moveIndicator(link);
     });
 });
-    
-// ЗАГРУЗКА
+
 window.addEventListener("load", () => {
     if (links[0]) {
         links[0].classList.add("active");
@@ -652,26 +647,6 @@ function applyPlan(plan) {
 const navLinks = document.querySelectorAll("nav a");
 const sectionsAll = document.querySelectorAll(".section");
 
-window.addEventListener("scroll", () => {
-    let current = "";
-
-    sectionsAll.forEach(sec => {
-        const top = sec.offsetTop - 140;
-        const height = sec.offsetHeight;
-
-        if (window.scrollY >= top && window.scrollY < top + height) {
-            current = sec.getAttribute("id");
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove("active");
-
-        if (link.getAttribute("href") === "#" + current) {
-            link.classList.add("active");
-        }
-    });
-});
     
 </script>   
 </body>  
