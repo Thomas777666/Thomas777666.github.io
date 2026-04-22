@@ -520,7 +520,6 @@ window.addEventListener('scroll', () => {
 });
 
 /* === NAV INDICATOR === */
-const links = document.querySelectorAll("nav a");
 const indicator = document.querySelector(".indicator");
 
 function moveIndicator(el){
@@ -529,21 +528,11 @@ function moveIndicator(el){
 }
 
 links.forEach(link => {
-    link.addEventListener("click", () => {
-
-        links.forEach(l => l.classList.remove("active"));
-
-        link.classList.add("active");
-
-        moveIndicator(link);
-    });
+    link.addEventListener("click", () => moveIndicator(link));
 });
 
 window.addEventListener("load", () => {
-    if (links[0]) {
-        links[0].classList.add("active");
-        moveIndicator(links[0]);
-    }
+    if(links[0]) moveIndicator(links[0]);
 });
 
 /* ================================
