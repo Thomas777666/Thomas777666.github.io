@@ -326,7 +326,28 @@ button:hover {
     padding: 30px;
     border: 1px solid #00f7ff;
     width: 300px;
+    position: relative;
     animation: fadeIn 0.5s ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    border: 0;
+    background: transparent;
+    color: #00f7ff;
+    font-size: 26px;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background: transparent;
+    box-shadow: none;
+    color: #ffffff;
 }
 
 input {
@@ -508,6 +529,7 @@ input {
 
 <div class="modal" id="loginModal">
     <div class="modal-content">
+        <button class="modal-close" type="button" aria-label="Close login dialog" onclick="closeLogin()">&times;</button>
         <h3>LOGIN</h3>
         <input type="text" id="loginName" placeholder="Login">
         <input type="password" id="loginPassword" placeholder="Password">
@@ -518,6 +540,7 @@ input {
 
 <div class="modal" id="registerModal">
     <div class="modal-content">
+        <button class="modal-close" type="button" aria-label="Close register dialog" onclick="closeRegister()">&times;</button>
         <h3>REGISTER</h3>
         <input type="text" id="registerName" placeholder="Choose login">
         <input type="password" id="registerPassword" placeholder="Choose password">
@@ -703,4 +726,5 @@ function applyPlan(plan) {
 </script>
 </body>
 </html>
+
 
