@@ -40,11 +40,12 @@ header {
 .menu-toggle {
     display: none;
     position: absolute;
-    right: 16px;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
-    width: 42px;
+    transform: translate(-50%, -50%);
+    width: auto;
     height: 42px;
+    min-width: 112px;
     border: 1px solid #00f7ff;
     border-radius: 999px;
     background: rgba(0, 0, 0, 0.2);
@@ -52,17 +53,13 @@ header {
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 0;
-}
-
-.menu-toggle span {
-    display: block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: currentColor;
-    box-shadow: 0 0 8px rgba(0, 247, 255, 0.75);
+    gap: 8px;
+    padding: 0 14px;
+    font: inherit;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 0 12px rgba(0, 247, 255, 0.12);
 }
 
 /* NAV */
@@ -482,7 +479,7 @@ input {
     .login-icon {
         position: static;
         margin-left: auto;
-        margin-right: 54px;
+        margin-right: 0;
         padding: 8px 12px;
         font-size: 12px;
         border-radius: 999px;
@@ -490,6 +487,7 @@ input {
 
     .menu-toggle {
         display: inline-flex;
+        z-index: 1002;
     }
 
     .center-panel {
@@ -592,7 +590,13 @@ input {
     .login-icon {
         font-size: 11px;
         padding: 7px 10px;
-        margin-right: 50px;
+    }
+
+    .menu-toggle {
+        min-width: 96px;
+        height: 38px;
+        font-size: 11px;
+        padding: 0 12px;
     }
 
     .center-panel h1 {
@@ -623,9 +627,7 @@ input {
 
     <div class="login-icon" onclick="openLogin()">LOGIN</div>
     <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
+        OPEN LIST
     </button>
 </header>
 
