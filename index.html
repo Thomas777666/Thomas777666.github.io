@@ -390,6 +390,172 @@ input {
     from {opacity: 0; transform: translateY(20px);} 
     to {opacity: 1; transform: translateY(0);} 
 }
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 120px;
+    }
+
+    header {
+        height: auto;
+        min-height: 92px;
+        padding: 12px 14px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px 12px;
+    }
+
+    .logo-small {
+        width: 110px;
+        height: auto;
+    }
+
+    nav {
+        position: static;
+        transform: none;
+        order: 3;
+        width: 100%;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    nav a {
+        padding: 8px 10px;
+        font-size: 12px;
+        flex: 0 0 auto;
+    }
+
+    nav a::after {
+        left: 10px;
+        right: 10px;
+    }
+
+    .login-icon {
+        position: static;
+        margin-left: auto;
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 999px;
+    }
+
+    .center-panel {
+        margin-top: 20px;
+        padding: 0 16px;
+    }
+
+    .logo-big {
+        width: min(92vw, 360px);
+        height: auto;
+    }
+
+    .center-panel h1 {
+        font-size: 30px;
+    }
+
+    .center-panel p {
+        font-size: 13px;
+    }
+
+    .section {
+        padding: 70px 16px;
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .card h2,
+    .privacy h3 {
+        font-size: 20px;
+        margin-top: 0;
+    }
+
+    #about p,
+    #privacy p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .plans {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .plan {
+        min-width: 0;
+        padding: 16px;
+    }
+
+    .price {
+        font-size: 22px;
+    }
+
+    button {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px 16px;
+    }
+
+    .modal-content,
+    .key-box {
+        width: calc(100vw - 32px);
+        max-width: 360px;
+        padding: 20px 16px;
+        box-sizing: border-box;
+    }
+
+    input {
+        font-size: 16px;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    .auth-switch {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 420px) {
+    body {
+        padding-top: 130px;
+    }
+
+    header {
+        padding: 10px 12px;
+    }
+
+    .logo-small {
+        width: 96px;
+    }
+
+    nav a {
+        font-size: 11px;
+        padding: 7px 9px;
+    }
+
+    .login-icon {
+        font-size: 11px;
+        padding: 7px 10px;
+    }
+
+    .center-panel h1 {
+        font-size: 26px;
+    }
+
+    .section {
+        padding: 60px 12px;
+    }
+}
 </style>
 </head>
 
@@ -736,6 +902,3 @@ function applyPlan(plan) {
 </script>
 </body>
 </html>
-
-
-
