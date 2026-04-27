@@ -37,6 +37,34 @@ header {
     z-index: 1000;
 }
 
+.menu-toggle {
+    display: none;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border: 1px solid #00f7ff;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #00f7ff;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 0;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 8px rgba(0, 247, 255, 0.75);
+}
+
 /* NAV */
 nav {
     position: absolute;
@@ -393,57 +421,75 @@ input {
 
 @media (max-width: 768px) {
     body {
-        padding-top: 120px;
+        padding-top: 96px;
     }
 
     header {
         height: auto;
-        min-height: 92px;
-        padding: 12px 14px;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 10px 12px;
+        min-height: 76px;
+        padding: 10px 14px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 10px;
     }
 
     .logo-small {
-        width: 110px;
+        width: 112px;
         height: auto;
     }
 
     nav {
-        position: static;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 12px;
+        right: 12px;
         transform: none;
-        order: 3;
-        width: 100%;
+        width: auto;
         display: flex;
+        flex-direction: column;
         gap: 8px;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 4px;
-        scrollbar-width: none;
+        padding: 12px;
+        background: rgba(2, 6, 23, 0.98);
+        border: 1px solid #00f7ff33;
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 1001;
     }
 
-    nav::-webkit-scrollbar {
-        display: none;
+    header.menu-open nav {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
     }
 
     nav a {
-        padding: 8px 10px;
+        display: block;
+        padding: 10px 12px;
         font-size: 12px;
-        flex: 0 0 auto;
+        border-radius: 10px;
+        background: rgba(0, 247, 255, 0.05);
     }
 
     nav a::after {
-        left: 10px;
-        right: 10px;
+        left: 12px;
+        right: 12px;
     }
 
     .login-icon {
         position: static;
         margin-left: auto;
+        margin-right: 54px;
         padding: 8px 12px;
         font-size: 12px;
         border-radius: 999px;
+    }
+
+    .menu-toggle {
+        display: inline-flex;
     }
 
     .center-panel {
@@ -527,7 +573,7 @@ input {
 
 @media (max-width: 420px) {
     body {
-        padding-top: 130px;
+        padding-top: 90px;
     }
 
     header {
@@ -546,6 +592,7 @@ input {
     .login-icon {
         font-size: 11px;
         padding: 7px 10px;
+        margin-right: 50px;
     }
 
     .center-panel h1 {
@@ -575,6 +622,11 @@ input {
     </div>
 
     <div class="login-icon" onclick="openLogin()">LOGIN</div>
+    <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 </header>
 
 <div class="center-panel">
@@ -782,13 +834,24 @@ window.addEventListener('scroll', () => {
 
 /* NAV ACTIVE STATE */
 const links = document.querySelectorAll("nav a");
+const header = document.querySelector("header");
+const menuToggle = document.querySelector(".menu-toggle");
 
 links.forEach(link => {
     link.addEventListener("click", () => {
         links.forEach(l => l.classList.remove("active"));
         link.classList.add("active");
+        header.classList.remove("menu-open");
+        if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
     });
 });
+
+if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+        const isOpen = header.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+}
 
 window.addEventListener("load", () => {
     const currentLink = [...links].find(link => link.getAttribute("href") === window.location.hash) || links[0];
