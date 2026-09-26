@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS // Digital Core</title>
+    <title>ADIDAS // FUTUREWEAR</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #080a0f;
-            --card-bg: rgba(16, 21, 31, 0.65);
-            --border-color: rgba(0, 242, 254, 0.2);
+            --bg-primary: #0a0a0c;
+            --bg-card: #141418;
+            --accent-neon: #ccff00; /* Adidas Neon Signal Green */
             --accent-cyan: #00f2fe;
-            --accent-purple: #9d4edd;
-            --accent-pink: #ff007f;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
+            --text-main: #ffffff;
+            --text-muted: #8e8e93;
+            --border-subtle: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -26,491 +25,616 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-primary);
             color: var(--text-main);
             overflow-x: hidden;
             min-height: 100vh;
         }
 
-        /* Canvas Background */
-        #bg-canvas {
+        /* 3-Stripes Subtle Background Branding */
+        .brand-stripes-bg {
             position: fixed;
             top: 0;
-            left: 0;
-            width: 100vw;
+            right: -10%;
+            width: 50vw;
             height: 100vh;
-            z-index: -1;
+            display: flex;
+            gap: 25px;
+            transform: rotate(-25deg);
+            opacity: 0.03;
             pointer-events: none;
+            z-index: 0;
         }
 
-        /* Navigation */
-        nav {
+        .stripe {
+            width: 40px;
+            height: 150%;
+            background: #fff;
+        }
+
+        /* Header / Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 8%;
-            background: rgba(8, 10, 15, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            position: fixed;
-            width: 100%;
-            top: 0;
+            padding: 1.5rem 6%;
+            background: rgba(10, 10, 12, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-subtle);
             z-index: 100;
         }
 
-        .logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: #fff;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
-        }
-
-        .logo span {
-            color: var(--accent-cyan);
-        }
-
-        .nav-links {
+        .brand-logo {
             display: flex;
-            gap: 2rem;
-            list-style: none;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #fff;
         }
 
-        .nav-links a {
+        /* SVG Adidas 3-Stripes Icon */
+        .adidas-icon {
+            width: 38px;
+            height: 26px;
+            fill: #fff;
+        }
+
+        .brand-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
             transition: all 0.3s ease;
-            font-family: 'JetBrains Mono', monospace;
         }
 
-        .nav-links a:hover {
-            color: var(--accent-cyan);
-            text-shadow: 0 0 8px var(--accent-cyan);
+        nav a:hover, nav a.active {
+            color: var(--accent-neon);
+        }
+
+        .cart-widget {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .cart-widget:hover {
+            border-color: var(--accent-neon);
+            color: var(--accent-neon);
+        }
+
+        .cart-count {
+            background: var(--accent-neon);
+            color: #000;
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 50%;
         }
 
         /* Hero Section */
         .hero {
+            position: relative;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 0 10%;
+            align-items: center;
+            padding: 0 8%;
             padding-top: 80px;
-            position: relative;
+            z-index: 1;
         }
 
-        .badge {
-            background: rgba(0, 242, 254, 0.1);
-            border: 1px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        .hero-content {
+            max-width: 580px;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-neon);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
         }
 
         .hero h1 {
-            font-size: 4.5rem;
-            font-weight: 800;
-            line-height: 1.1;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 6rem;
+            line-height: 0.9;
+            letter-spacing: 2px;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 50%, var(--accent-purple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            color: transparent;
+            -webkit-text-stroke: 1.5px #fff;
         }
 
         .hero p {
-            max-width: 600px;
-            font-size: 1.15rem;
             color: var(--text-muted);
-            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
             line-height: 1.6;
+            margin-bottom: 2.5rem;
         }
 
-        .hero-buttons {
+        .cta-group {
             display: flex;
             gap: 1.5rem;
+            align-items: center;
         }
 
-        .btn-primary {
-            padding: 14px 32px;
-            border: none;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+        .btn-adidas {
+            background: var(--accent-neon);
             color: #000;
-            font-weight: 700;
-            border-radius: 6px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 16px 36px;
+            border: none;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
             cursor: pointer;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
             transition: all 0.3s ease;
             text-decoration: none;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            display: inline-block;
         }
 
-        .btn-primary:hover {
+        .btn-adidas:hover {
+            background: #fff;
             transform: translateY(-3px);
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
+            box-shadow: 0 10px 25px rgba(204, 255, 0, 0.3);
         }
 
-        .btn-secondary {
-            padding: 14px 32px;
+        .btn-outline {
             background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-weight: 500;
-            border-radius: 6px;
+            color: #fff;
+            border: 1px solid var(--border-subtle);
+            padding: 15px 32px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            font-family: 'JetBrains Mono', monospace;
+            transition: 0.3s ease;
         }
 
-        .btn-secondary:hover {
-            border-color: var(--accent-cyan);
-            color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        .btn-outline:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* Container & Cards */
-        .section {
-            padding: 6rem 10%;
+        /* Hero Image Showcase */
+        .hero-visual {
+            position: absolute;
+            right: 5%;
+            top: 55%;
+            transform: translateY(-50%);
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sneaker-glow {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(204, 255, 0, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .hero-sneaker-img {
+            width: 110%;
+            max-width: 650px;
+            transform: rotate(-18deg) translateY(-20px);
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hero-visual:hover .hero-sneaker-img {
+            transform: rotate(-10deg) scale(1.05) translateY(-30px);
+        }
+
+        /* Catalog Section */
+        .section-catalog {
+            padding: 6rem 8%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3.5rem;
         }
 
         .section-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 3rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.2rem;
+            letter-spacing: 2px;
+        }
+
+        .section-title span {
+            color: var(--accent-neon);
+        }
+
+        .filter-tabs {
             display: flex;
-            align-items: center;
             gap: 1rem;
         }
 
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, var(--border-color), transparent);
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .grid {
+        .filter-btn.active, .filter-btn:hover {
+            color: #fff;
+            border-bottom: 2px solid var(--accent-neon);
+        }
+
+        /* Product Cards Grid */
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 2rem;
-            border-radius: 12px;
-            backdrop-filter: blur(16px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1.5rem;
             position: relative;
             overflow: hidden;
+            transition: all 0.4s ease;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .card:hover {
+        .product-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(0, 242, 254, 0.5);
-            box-shadow: 0 10px 30px -10px rgba(0, 242, 254, 0.15);
+            border-color: rgba(204, 255, 0, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
 
-        .card:hover::before {
-            transform: translateX(100%);
+        .card-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #fff;
+            color: #000;
+            font-weight: 800;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .card-icon {
-            font-size: 2rem;
-            color: var(--accent-cyan);
-            margin-bottom: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Interactive Terminal Section */
-        .terminal-container {
-            background: rgba(5, 7, 10, 0.9);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            font-family: 'JetBrains Mono', monospace;
-            margin-top: 2rem;
-        }
-
-        .terminal-header {
-            background: rgba(20, 25, 35, 0.8);
-            padding: 10px 15px;
+        .product-img-wrapper {
+            height: 220px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            justify-content: center;
+            margin: 1rem 0;
+            position: relative;
         }
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
+        .product-img {
+            max-width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
         }
 
-        .dot-red { background: #ff5f56; }
-        .dot-yellow { background: #ffbd2e; }
-        .dot-green { background: #27c93f; }
+        .product-card:hover .product-img {
+            transform: scale(1.1) rotate(-5deg);
+        }
 
-        .terminal-title {
+        .product-info h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-category {
             color: var(--text-muted);
             font-size: 0.8rem;
-            margin-left: auto;
-            margin-right: auto;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
-        .terminal-body {
-            padding: 1.5rem;
-            min-height: 200px;
-            color: #4af626;
-            font-size: 0.9rem;
-            line-height: 1.8;
-        }
-
-        .command-line {
+        .product-bottom {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            margin-top: 10px;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 1rem;
         }
 
-        .prompt {
-            color: var(--accent-cyan);
+        .price {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #fff;
         }
 
-        .terminal-input {
-            background: transparent;
+        .add-btn {
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            color: var(--text-main);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            outline: none;
-            width: 100%;
+            color: #fff;
+            padding: 8px 14px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .add-btn:hover {
+            background: var(--accent-neon);
+            color: #000;
+        }
+
+        /* Tech Banner */
+        .tech-banner {
+            margin: 4rem 8%;
+            background: linear-gradient(135deg, #181820 0%, #0d0d12 100%);
+            border: 1px solid var(--border-subtle);
+            border-left: 4px solid var(--accent-neon);
+            padding: 3.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 4px;
+        }
+
+        .tech-text h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-text p {
+            color: var(--text-muted);
+            max-width: 500px;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         /* Footer */
         footer {
-            text-align: center;
-            padding: 3rem;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border-subtle);
+            padding: 3rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             color: var(--text-muted);
             font-size: 0.85rem;
-            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.8rem; }
-            .nav-links { display: none; }
-            .hero-buttons { flex-direction: column; width: 100%; }
-            .btn-primary, .btn-secondary { text-align: center; width: 100%; }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .hero-visual { display: none; }
+            .hero { text-align: center; justify-content: center; }
+            .hero-content { max-width: 100%; }
+            .cta-group { justify-content: center; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .tech-banner { flex-direction: column; text-align: center; gap: 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
+    <!-- Subtle 3-Stripes Background Accent -->
+    <div class="brand-stripes-bg">
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+    </div>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">NEXUS<span>_</span></div>
-        <ul class="nav-links">
-            <li><a href="#about">// ABOUT</a></li>
-            <li><a href="#projects">// MODULES</a></li>
-            <li><a href="#terminal">// TERMINAL</a></li>
-        </ul>
-    </nav>
+    <!-- Top Navigation Header -->
+    <header>
+        <a href="#" class="brand-logo">
+            <svg class="adidas-icon" viewBox="0 0 100 60">
+                <polygon points="0,60 20,60 38,28 18,28" />
+                <polygon points="28,60 48,60 74,14 54,14" />
+                <polygon points="56,60 76,60 100,0 80,0" />
+            </svg>
+            <span class="brand-name">ADIDAS // TECH</span>
+        </a>
 
-    <!-- Hero Section -->
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Footwear</a></li>
+                <li><a href="#">Apparel</a></li>
+                <li><a href="#">Y-3 / Drops</a></li>
+                <li><a href="#">Innovations</a></li>
+            </ul>
+        </nav>
+
+        <div class="cart-widget" id="cart-widget">
+            <span>BAG</span>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </header>
+
+    <!-- Main Hero Banner -->
     <section class="hero">
-        <div class="badge">SYSTEM STATUS: ONLINE</div>
-        <h1>Architecting the Next Digital Frontier</h1>
-        <p>High-performance web applications, modern responsive UI design, and interactive software modules crafted with precision.</p>
-        <div class="hero-buttons">
-            <a href="#projects" class="btn-primary">Explore Modules</a>
-            <a href="#terminal" class="btn-secondary">Launch Terminal &gt;</a>
+        <div class="hero-content">
+            <div class="hero-tag">
+                <span>///</span> NEW DROP : ULTRABOOST LIGHT
+            </div>
+            <h1>THE ART OF <span>SPEED &amp; STYLE</span></h1>
+            <p>Engineered with 30% lighter Boost material for maximum energy return. Designed for high-performance training and futuristic urban street style.</p>
+            <div class="cta-group">
+                <a href="#catalog" class="btn-adidas">SHOP DROP</a>
+                <button class="btn-outline">EXPLORE TECH</button>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="sneaker-glow"></div>
+            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80" alt="Adidas Ultraboost Sneaker" class="hero-sneaker-img">
         </div>
     </section>
 
-    <!-- Projects Grid -->
-    <section class="section" id="projects">
-        <h2 class="section-title">Core Features & Modules</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-icon">&lt;01/&gt;</div>
-                <h3>Custom UI Engines</h3>
-                <p>Sleek, glassmorphic design interfaces built with high-performance CSS animations and glowing visual feedback.</p>
+    <!-- Product Showcase Catalog -->
+    <section class="section-catalog" id="catalog">
+        <div class="section-header">
+            <h2 class="section-title">FEATURED <span>COLLECTION</span></h2>
+            <div class="filter-tabs">
+                <button class="filter-btn active">ALL DROPS</button>
+                <button class="filter-btn">RUNNING</button>
+                <button class="filter-btn">ORIGINALS</button>
             </div>
-            <div class="card">
-                <div class="card-icon">&lt;02/&gt;</div>
-                <h3>Automated Systems</h3>
-                <p>Seamless API integrations, intelligent automation bots, and serverless background workers running 24/7.</p>
+        </div>
+
+        <div class="products-grid">
+            <!-- Card 1 -->
+            <div class="product-card">
+                <div class="card-badge">HOT DROP</div>
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80" class="product-img" alt="Adidas NMD">
+                </div>
+                <div class="product-info">
+                    <h3>NMD_R1 V3 SPECTRAL</h3>
+                    <div class="product-category">Originals / Streetwear</div>
+                    <div class="product-bottom">
+                        <div class="price">$160</div>
+                        <button class="add-btn" onclick="addToCart()">ADD +</button>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <div class="card-icon">&lt;03/&gt;</div>
-                <h3>Interactive Rendering</h3>
-                <p>Real-time Canvas graphics, responsive particle systems, and modern WebGL visual effects.</p>
+
+            <!-- Card 2 -->
+            <div class="product-card">
+                <div class="card-badge">LIMITED</div>
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=600&q=80" class="product-img" alt="Adidas Forum">
+                </div>
+                <div class="product-info">
+                    <h3>FORUM LOW CYBER</h3>
+                    <div class="product-category">Basketball / Lifestyle</div>
+                    <div class="product-bottom">
+                        <div class="price">$130</div>
+                        <button class="add-btn" onclick="addToCart()">ADD +</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="product-card">
+                <div class="card-badge">4D TECH</div>
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80" class="product-img" alt="Adidas 4D">
+                </div>
+                <div class="product-info">
+                    <h3>4DFWD 3 MATRIX</h3>
+                    <div class="product-category">3D Printed Sole / Performance</div>
+                    <div class="product-bottom">
+                        <div class="price">$220</div>
+                        <button class="add-btn" onclick="addToCart()">ADD +</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Interactive Terminal Section -->
-    <section class="section" id="terminal">
-        <h2 class="section-title">Interactive Console</h2>
-        <div class="terminal-container">
-            <div class="terminal-header">
-                <div class="dot dot-red"></div>
-                <div class="dot dot-yellow"></div>
-                <div class="dot dot-green"></div>
-                <div class="terminal-title">bash -- 80x24</div>
-            </div>
-            <div class="terminal-body" id="terminal-body">
-                <div>[NEXUS OS v2.6.0 Init...]</div>
-                <div>Type <span style="color: var(--accent-cyan);">'help'</span> for available commands, or <span style="color: var(--accent-cyan);">'about'</span> to query system logs.</div>
-            </div>
-            <div class="command-line" style="padding: 0 1.5rem 1.5rem 1.5rem;">
-                <span class="prompt">user@nexus:~$</span>
-                <input type="text" class="terminal-input" id="terminal-input" autofocus placeholder="type a command...">
-            </div>
+    <!-- Innovation Banner -->
+    <section class="tech-banner">
+        <div class="tech-text">
+            <h2>3D-PRINTED LATTICE MIDSOLE</h2>
+            <p>Transforming impact forces into forward motion. Adidas 4D lattice midsole compresses forward on impact, reducing braking force by 15%.</p>
         </div>
+        <button class="btn-adidas">DISCOVER 4D LAB</button>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>// BUILT WITH HTML5, CSS3 & VANILLA JS // ALL SYSTEMS OPERATIONAL</p>
+        <div class="footer-logo">
+            <svg class="adidas-icon" viewBox="0 0 100 60" style="width:28px;">
+                <polygon points="0,60 20,60 38,28 18,28" />
+                <polygon points="28,60 48,60 74,14 54,14" />
+                <polygon points="56,60 76,60 100,0 80,0" />
+            </svg>
+            <span>ADIDAS AG © 2026</span>
+        </div>
+        <div>IMPOSSIBLE IS NOTHING ///</div>
     </footer>
 
-    <!-- Interactive Background & Terminal Script -->
+    <!-- Interactive JS -->
     <script>
-        // --- 1. Interactive Particle Canvas Background ---
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
+        let cartItems = 0;
+        const cartCountEl = document.getElementById('cart-count');
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        const particles = [];
-        const particleCount = 65;
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.6,
-                vy: (Math.random() - 0.5) * 0.6,
-                radius: Math.random() * 1.8 + 0.5
-            });
-        }
-
-        function animateCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function addToCart() {
+            cartItems++;
+            cartCountEl.textContent = cartItems;
             
-            // Draw particles & connecting lines
-            for (let i = 0; i < particles.length; i++) {
-                let p1 = particles[i];
-                p1.x += p1.vx;
-                p1.y += p1.vy;
-
-                if (p1.x < 0 || p1.x > canvas.width) p1.vx *= -1;
-                if (p1.y < 0 || p1.y > canvas.height) p1.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0, 242, 254, 0.6)';
-                ctx.fill();
-
-                for (let j = i + 1; j < particles.length; j++) {
-                    let p2 = particles[j];
-                    let dx = p1.x - p2.x;
-                    let dy = p1.y - p2.y;
-                    let dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(0, 242, 254, ${1 - dist / 120 * 0.85})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(animateCanvas);
+            // Visual feedback animation on bag widget
+            const widget = document.getElementById('cart-widget');
+            widget.style.transform = 'scale(1.15)';
+            widget.style.borderColor = '#ccff00';
+            
+            setTimeout(() => {
+                widget.style.transform = 'scale(1)';
+            }, 200);
         }
-        animateCanvas();
 
-        // --- 2. Interactive Terminal Commands ---
-        const terminalBody = document.getElementById('terminal-body');
-        const terminalInput = document.getElementById('terminal-input');
-
-        const commands = {
-            'help': 'Available commands: <span style="color:#00f2fe">about, projects, clear, date, echo</span>',
-            'about': 'NEXUS Core is a lightweight, responsive Web UI boilerplate optimized for speed and futuristic visuals.',
-            'projects': 'Active Modules:\n - [01] Glassmorphism Dashboard\n - [02] Telegram Automation Bot\n - [03] WebGL Shader Canvas',
-            'date': () => new Date().toString(),
-            'clear': 'CLEAR'
-        };
-
-        terminalInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const input = terminalInput.value.trim().toLowerCase();
-                if (!input) return;
-
-                // Echo the user command
-                const userLine = document.createElement('div');
-                userLine.innerHTML = `<span style="color:var(--accent-cyan)">user@nexus:~$</span> ${terminalInput.value}`;
-                terminalBody.appendChild(userLine);
-
-                // Process output
-                const responseLine = document.createElement('div');
-                if (input === 'clear') {
-                    terminalBody.innerHTML = '';
-                } else if (commands[input]) {
-                    const output = typeof commands[input] === 'function' ? commands[input]() : commands[input];
-                    responseLine.innerHTML = output.replace(/\n/g, '<br>');
-                    terminalBody.appendChild(responseLine);
-                } else {
-                    responseLine.innerHTML = `<span style="color:#ff007f">Command not found: '${input}'. Type 'help' for options.</span>`;
-                    terminalBody.appendChild(responseLine);
-                }
-
-                terminalInput.value = '';
-                terminalBody.scrollTop = terminalBody.scrollHeight;
-            }
+        // Smooth filter button switching
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
         });
     </script>
 </body>
