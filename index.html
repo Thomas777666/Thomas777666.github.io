@@ -3,225 +3,589 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Проект — Главная</title>
+    <title>CRAFT // MINECRAFT 3D SKIN STUDIO</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Skinview3d Library (3D Minecraft Renderer) -->
+    <script src="https://unpkg.com/skinview3d@3.0.0/dist/skinview3d.bundle.js"></script>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #151c2e;
-            --accent-color: #6366f1;
-            --accent-hover: #4f46e5;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-color: #1f293d;
+            --bg-dark: #0a0d14;
+            --bg-panel: #121824;
+            --accent-neon: #00ffcc;
+            --accent-purple: #9d4edf;
+            --text-main: #f0f4f8;
+            --text-muted: #64748b;
+            --border: rgba(0, 255, 204, 0.15);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
+            user-select: none;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
             color: var(--text-main);
-            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
         }
 
-        /* Навигация */
+        /* Header */
         header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(11, 15, 25, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-        }
-
-        nav {
-            max-width: 1100px;
-            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 1.5rem;
+            padding: 1rem 2rem;
+            background: rgba(18, 24, 36, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-main);
-            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .logo span {
-            color: var(--accent-color);
+            color: var(--accent-neon);
         }
 
-        .nav-links {
+        .header-actions {
             display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-main);
-        }
-
-        /* Hero секция */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 6rem 1.5rem 3rem;
-            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-        }
-
-        .hero-content {
-            max-width: 750px;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.2rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
+            gap: 12px;
         }
 
         .btn {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: #ffffff;
-            padding: 0.8rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 16px;
             border-radius: 8px;
-            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
             font-weight: 600;
-            transition: background-color 0.3s, transform 0.2s;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
+            background: var(--accent-neon);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
         }
 
-        /* Секция Карточек */
-        .features {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 5rem 1.5rem;
+        .btn-primary {
+            background: var(--accent-neon);
+            color: #000;
+            border-color: var(--accent-neon);
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .grid {
+        /* Main Workspace Layout */
+        .workspace {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 320px 1fr 360px;
             gap: 1.5rem;
+            padding: 1.5rem;
+            flex-grow: 1;
+            height: calc(100vh - 70px);
         }
 
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 2rem;
+        .panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            transition: border-color 0.3s, transform 0.3s;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            overflow-y: auto;
         }
 
-        .card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
-            margin-bottom: 0.8rem;
-            color: var(--text-main);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Футер */
-        footer {
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            padding: 2rem 1.5rem;
-            color: var(--text-muted);
+        .panel-title {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
+            color: var(--accent-neon);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .nav-links { display: none; }
+        /* Toolbar & Controls */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tool-btn:hover, .tool-btn.active {
+            background: rgba(0, 255, 204, 0.15);
+            border-color: var(--accent-neon);
+            color: var(--accent-neon);
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 100%;
+            height: 45px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+        }
+
+        .swatch {
+            aspect-ratio: 1;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.15s ease;
+        }
+
+        .swatch:hover {
+            transform: scale(1.15);
+        }
+
+        /* 2D Canvas Editor Area */
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle, rgba(0, 255, 204, 0.03) 0%, transparent 70%);
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #1a2234;
+        }
+
+        canvas {
+            image-rendering: pixelated;
+            display: block;
+            cursor: crosshair;
+        }
+
+        .canvas-hint {
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* 3D Preview Panel */
+        .viewport-3d {
+            width: 100%;
+            height: 380px;
+            border-radius: 8px;
+            background: radial-gradient(circle, rgba(157, 78, 223, 0.1) 0%, rgba(10, 13, 20, 0.9) 80%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        select, input[type="range"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .workspace {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            .viewport-3d {
+                height: 300px;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header>
-        <nav>
-            <a href="#" class="logo">Dev<span>Site</span></a>
-            <ul class="nav-links">
-                <li><a href="#about">О нас</a></li>
-                <li><a href="#services">Услуги</a></li>
-                <li><a href="#contact">Контакты</a></li>
-            </ul>
-        </nav>
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            </svg>
+            CRAFT // <span>SKIN STUDIO</span>
+        </div>
+        <div class="header-actions">
+            <input type="file" id="file-input" accept="image/png" style="display: none;">
+            <button class="btn" onclick="document.getElementById('file-input').click()">📁 Загрузить PNG</button>
+            <button class="btn btn-primary" onclick="exportSkin()">💾 Скачать скин (.png)</button>
+        </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Современный сайт для вашего проекта</h1>
-                <p>Быстрая загрузка, чистый код, адаптивная верстка под все устройства и стильный современный интерфейс.</p>
-                <a href="#services" class="btn">Узнать больше</a>
+    <!-- Workspace -->
+    <div class="workspace">
+        
+        <!-- Left Panel: Tools -->
+        <div class="panel">
+            <div class="panel-title">🛠️ Инструменты</div>
+            
+            <div class="tool-grid">
+                <button class="tool-btn active" id="tool-pencil" onclick="setTool('pencil')">✏️ Кисть</button>
+                <button class="tool-btn" id="tool-eraser" onclick="setTool('eraser')">🧹 Ластик</button>
+                <button class="tool-btn" id="tool-bucket" onclick="setTool('bucket')">🪣 Заливка</button>
+                <button class="tool-btn" id="tool-picker" onclick="setTool('picker')">🧪 Пипетка</button>
             </div>
-        </section>
 
-        <section class="features" id="services">
-            <h2 class="section-title">Особенности проекта</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Высокая скорость</h3>
-                    <p>Минимальное количество сторонних зависимостей обеспечивает мгновенную страницу загрузки.</p>
-                </div>
-                <div class="card">
-                    <h3>Адаптивность</h3>
-                    <p>Интерфейс корректно отображается на смартфонах, планшетах и широкоформатных мониторах.</p>
-                </div>
-                <div class="card">
-                    <h3>Чистый дизайн</h3>
-                    <p>Тёмная цветовая гамма с аккуратными акцентами и продуманной типографикой.</p>
+            <div class="color-picker-wrapper">
+                <div class="panel-title">🎨 Цвет</div>
+                <input type="color" id="color-picker" value="#00ffcc">
+                <div class="palette" id="palette">
+                    <!-- Dynamic Swatches -->
                 </div>
             </div>
-        </section>
-    </main>
 
-    <footer id="contact">
-        <p>&copy; 2026 DevSite. Все права защищены.</p>
-    </footer>
+            <div class="control-group">
+                <div class="panel-title">🎭 Пресеты</div>
+                <select id="preset-select" onchange="loadPreset(this.value)">
+                    <option value="steve">Стив (Классический)</option>
+                    <option value="alex">Алекс</option>
+                    <option value="cyberpunk">Киберпанк Неон</option>
+                    <option value="blank">Пустой холст</option>
+                </select>
+            </div>
+        </div>
 
-</body>
-</html>
+        <!-- Center Panel: 2D Pixel Canvas Editor -->
+        <div class="panel editor-container">
+            <div class="panel-title">✏️ 2D Развёртка Скина (64x64)</div>
+            <div class="canvas-wrapper">
+                <canvas id="editor-canvas" width="512" height="512"></canvas>
+            </div>
+            <div class="canvas-hint">Зажмите левую кнопку мыши для рисования пикселей</div>
+        </div>
+
+        <!-- Right Panel: 3D Live View -->
+        <div class="panel">
+            <div class="panel-title">🧊 3D Превью в реальном времени</div>
+            
+            <div class="viewport-3d" id="3d-container">
+                <canvas id="skin_container"></canvas>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <span>Анимация:</span>
+                </div>
+                <select id="animation-select" onchange="updateAnimation(this.value)">
+                    <option value="walk">Ходьба</option>
+                    <option value="run">Бег</option>
+                    <option value="idle">Стоять</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <span>Слой куртки / шляпы (Outer Layer):</span>
+                </div>
+                <button class="btn" id="toggle-outer" onclick="toggleOuterLayer()">👁️ Вкл/Выкл внешний слой</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Hidden 64x64 Texture Canvas -->
+    <canvas id="texture-canvas" width="64" height="64" style="display: none;"></canvas>
+
+    <script>
+        // System State
+        let currentTool = 'pencil';
+        let currentColor = '#00ffcc';
+        let isDrawing = false;
+        let outerLayerVisible = true;
+
+        // Canvases
+        const textureCanvas = document.getElementById('texture-canvas');
+        const textureCtx = textureCanvas.getContext('2d', { willReadFrequently: true });
+        
+        const editorCanvas = document.getElementById('editor-canvas');
+        const editorCtx = editorCanvas.getContext('2d');
+        const scale = 512 / 64; // 8x zoom per pixel
+
+        // Color Swatches
+        const defaultColors = ['#00ffcc', '#ff0055', '#9d4edf', '#ffcc00', '#ffffff', '#000000', '#2b3a4a', '#8b5a2b', '#c0d6e4', '#4a7c59', '#d90429', '#ff9f1c'];
+        const paletteContainer = document.getElementById('palette');
+
+        defaultColors.forEach(color => {
+            const swatch = document.createElement('div');
+            swatch.className = 'swatch';
+            swatch.style.backgroundColor = color;
+            swatch.onclick = () => {
+                currentColor = color;
+                document.getElementById('color-picker').value = color;
+            };
+            paletteContainer.appendChild(swatch);
+        });
+
+        document.getElementById('color-picker').addEventListener('input', (e) => {
+            currentColor = e.target.value;
+        });
+
+        // 3D Skin Viewer Setup
+        let skinViewer;
+        let walkAnimation;
+
+        function init3DViewer() {
+            skinViewer = new skinview3d.SkinViewer({
+                canvas: document.getElementById('skin_container'),
+                width: 320,
+                height: 360,
+                skin: textureCanvas.toDataURL()
+            });
+
+            skinViewer.camera.position.x = 30;
+            skinViewer.camera.position.y = 15;
+            skinViewer.camera.position.z = 45;
+            skinViewer.zoom = 0.9;
+
+            walkAnimation = new skinview3d.WalkingAnimation();
+            walkAnimation.speed = 0.6;
+            skinViewer.animation = walkAnimation;
+        }
+
+        // Tools Management
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tool-${tool}`).classList.add('active');
+        }
+
+        // Render 2D Grid & Pixels to Main Editor
+        function renderEditor() {
+            editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+            
+            // Draw current texture zoomed
+            editorCtx.imageSmoothingEnabled = false;
+            editorCtx.drawImage(textureCanvas, 0, 0, 512, 512);
+
+            // Draw Subtle Grid Overlay
+            editorCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            editorCtx.lineWidth = 1;
+            for (let i = 0; i < 512; i += scale) {
+                editorCtx.beginPath();
+                editorCtx.moveTo(i, 0);
+                editorCtx.lineTo(i, 512);
+                editorCtx.stroke();
+
+                editorCtx.beginPath();
+                editorCtx.moveTo(0, i);
+                editorCtx.lineTo(512, i);
+                editorCtx.stroke();
+            }
+        }
+
+        // Sync 2D Texture Canvas -> 3D View
+        function syncTextureTo3D() {
+            const dataUrl = textureCanvas.toDataURL();
+            skinViewer.loadSkin(dataUrl);
+            renderEditor();
+        }
+
+        // Draw Single Pixel on 64x64 Texture
+        function drawPixel(x, y, color) {
+            if (x < 0 || x >= 64 || y < 0 || y >= 64) return;
+
+            if (color === null) {
+                textureCtx.clearRect(x, y, 1, 1);
+            } else {
+                textureCtx.fillStyle = color;
+                textureCtx.fillRect(x, y, 1, 1);
+            }
+        }
+
+        // Flood Fill Algorithm
+        function floodFill(startX, startY, fillColor) {
+            const imgData = textureCtx.getImageData(0, 0, 64, 64);
+            const data = imgData.data;
+
+            const targetPos = (startY * 64 + startX) * 4;
+            const targetR = data[targetPos];
+            const targetG = data[targetPos + 1];
+            const targetB = data[targetPos + 2];
+            const targetA = data[targetPos + 3];
+
+            // Convert hex to rgb
+            const hex = fillColor.replace('#', '');
+            const fillR = parseInt(hex.substring(0, 2), 16);
+            const fillG = parseInt(hex.substring(2, 4), 16);
+            const fillB = parseInt(hex.substring(4, 6), 16);
+
+            if (targetR === fillR && targetG === fillG && targetB === fillB && targetA === 255) return;
+
+            const queue = [[startX, startY]];
+
+            while (queue.length > 0) {
+                const [x, y] = queue.pop();
+                if (x < 0 || x >= 64 || y < 0 || y >= 64) continue;
+
+                const pos = (y * 64 + x) * 4;
+                if (data[pos] === targetR && data[pos + 1] === targetG && data[pos + 2] === targetB && data[pos + 3] === targetA) {
+                    data[pos] = fillR;
+                    data[pos + 1] = fillG;
+                    data[pos + 2] = fillB;
+                    data[pos + 3] = 255;
+
+                    queue.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
+                }
+            }
+
+            textureCtx.putImageData(imgData, 0, 0);
+            syncTextureTo3D();
+        }
+
+        // Canvas Interaction Events
+        function handlePointerEvent(e) {
+            const rect = editorCanvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const x = Math.floor(mouseX / scale);
+            const y = Math.floor(mouseY / scale);
+
+            if (currentTool === 'pencil') {
+                drawPixel(x, y, currentColor);
+                syncTextureTo3D();
+            } else if (currentTool === 'eraser') {
+                drawPixel(x, y, null);
+                syncTextureTo3D();
+            } else if (currentTool === 'picker') {
+                const pixel = textureCtx.getImageData(x, y, 1, 1).data;
+                if (pixel[3] > 0) {
+                    const hex = '#' + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1);
+                    currentColor = hex;
+                    document.getElementById('color-picker').value = hex;
+                }
+            } else if (currentTool === 'bucket' && e.type === 'mousedown') {
+                floodFill(x, y, currentColor);
+            }
+        }
+
+        editorCanvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            handlePointerEvent(e);
+        });
+
+        editorCanvas.addEventListener('mousemove', (e) => {
+            if (isDrawing && currentTool !== 'bucket') {
+                handlePointerEvent(e);
+            }
+        });
+
+        window.addEventListener('mouseup', () => { isDrawing = false; });
+
+        // Preset Skins Generator
+        function loadPreset(presetName) {
+            textureCtx.clearRect(0, 0, 64, 64);
+
+            if (presetName === 'steve' || presetName === 'alex') {
+                // Draw Base Steve Skin
+                textureCtx.fillStyle = '#c68642'; // Skin tone
+                textureCtx.fillRect(8, 8, 8, 8); // Head Front
+                textureCtx.fillRect(20, 20, 8, 12); // Torso Front
+                textureCtx.fillStyle = '#0000ff'; // Blue pants
+                textureCtx.fillRect(4, 20, 4, 12); textureCtx.fillRect(20, 52, 4, 12);
+                textureCtx.fillStyle = '#00a8a8'; // Cyan shirt
+                textureCtx.fillRect(20, 20, 8, 12);
+            } else if (presetName === 'cyberpunk') {
+                // Neon Cyberpunk Base
+                textureCtx.fillStyle = '#0a0d14';
+                textureCtx.fillRect(0, 0, 64, 64);
+                
+                textureCtx.fillStyle = '#00ffcc';
+                textureCtx.fillRect(8, 8, 8, 8); // Head
+                textureCtx.fillRect(20, 20, 8, 12); // Body
+                
+                textureCtx.fillStyle = '#ff0055';
+                textureCtx.fillRect(10, 10, 4, 2); // Visor
+                textureCtx.fillRect(40, 20, 4, 12); // Arm Accent
+            }
+
+            syncTextureTo3D();
+        }
+
+        // Upload Custom PNG Skin
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new 
