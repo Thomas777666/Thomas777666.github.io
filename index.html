@@ -2,579 +2,226 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>ADIDAS // 3D ALL-SNEAKERS CATALOG</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Google Model Viewer (3D Engine) -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Проект — Главная</title>
     <style>
         :root {
-            --bg-primary: #080a0f;
-            --bg-card: rgba(16, 21, 31, 0.8);
-            --accent-neon: #ccff00;
-            --accent-cyan: #00f2fe;
-            --accent-pink: #ff007f;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --border-subtle: rgba(204, 255, 0, 0.2);
+            --bg-color: #0b0f19;
+            --card-bg: #151c2e;
+            --accent-color: #6366f1;
+            --accent-hover: #4f46e5;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #1f293d;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: var(--bg-primary);
+            background-color: var(--bg-color);
             color: var(--text-main);
+            line-height: 1.6;
             overflow-x: hidden;
-            min-height: 100vh;
         }
 
-        /* Ambient Grid Background */
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-image: 
-                linear-gradient(rgba(204, 255, 0, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(204, 255, 0, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Header */
+        /* Навигация */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 6%;
-            background: rgba(8, 10, 15, 0.88);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
             z-index: 1000;
         }
 
-        .brand-logo {
+        nav {
+            max-width: 1100px;
+            margin: 0 auto;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: #fff;
+            padding: 1.2rem 1.5rem;
         }
 
-        .adidas-icon {
-            width: 36px;
-            height: 24px;
-            fill: #fff;
-        }
-
-        .brand-name {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 2px;
-        }
-
-        .brand-name span {
-            color: var(--accent-neon);
-        }
-
-        .cart-widget {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px 18px;
-            border-radius: 30px;
-            border: 1px solid var(--border-subtle);
-            cursor: pointer;
-            transition: 0.3s ease;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-        }
-
-        .cart-widget:hover {
-            border-color: var(--accent-neon);
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
-        }
-
-        .cart-count {
-            background: var(--accent-neon);
-            color: #000;
-            font-weight: 800;
-            padding: 2px 8px;
-            border-radius: 50%;
-        }
-
-        /* Hero Intro Section */
-        .hero-intro {
-            padding: 120px 6% 40px 6%;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-intro h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(3rem, 7vw, 5.5rem);
-            line-height: 0.95;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-        }
-
-        .hero-intro h1 span {
-            color: transparent;
-            -webkit-text-stroke: 1.5px var(--accent-neon);
-        }
-
-        .hero-intro p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 650px;
-            margin: 0 auto 1.5rem auto;
-        }
-
-        .hint-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(204, 255, 0, 0.1);
-            border: 1px solid var(--accent-neon);
-            color: var(--accent-neon);
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-        }
-
-        /* 3D Catalog Grid */
-        .catalog-section {
-            padding: 2rem 6% 6rem 6%;
-            position: relative;
-            z-index: 1;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .product-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            padding: 1.5rem;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .product-card:hover {
-            border-color: rgba(204, 255, 0, 0.6);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(204, 255, 0, 0.1);
-        }
-
-        .card-badge {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(204, 255, 0, 0.15);
-            border: 1px solid var(--accent-neon);
-            color: var(--accent-neon);
-            font-family: 'JetBrains Mono', monospace;
+        .logo {
+            font-size: 1.4rem;
             font-weight: 700;
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            z-index: 10;
+            color: var(--text-main);
+            text-decoration: none;
         }
 
-        /* Inline 3D Model Viewer Inside Each Card */
-        .card-3d-wrapper {
-            width: 100%;
-            height: 280px;
-            position: relative;
-            background: radial-gradient(circle, rgba(204, 255, 0, 0.05) 0%, transparent 70%);
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            overflow: hidden;
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 2rem;
+            list-style: none;
         }
 
-        .card-3d-wrapper model-viewer {
-            width: 100%;
-            height: 100%;
-            --poster-color: transparent;
-        }
-
-        /* Controls Inside Card */
-        .card-3d-controls {
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-        }
-
-        .btn-card-ctrl {
-            background: rgba(8, 10, 15, 0.85);
-            border: 1px solid var(--border-subtle);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .btn-card-ctrl:hover {
-            background: var(--accent-neon);
-            color: #000;
-        }
-
-        .card-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            flex-grow: 1;
-        }
-
-        .card-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 1px;
-            margin-top: 0.3rem;
-        }
-
-        .card-desc {
+        .nav-links a {
             color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.4;
+            text-decoration: none;
+            transition: color 0.3s;
         }
 
-        .card-footer {
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* Hero секция */
+        .hero {
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-top: 1.2rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .card-price {
-            font-weight: 800;
-            font-size: 1.3rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-neon);
-        }
-
-        .btn-add {
-            background: var(--accent-neon);
-            color: #000;
-            border: none;
-            padding: 10px 22px;
-            font-weight: 800;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-
-        .btn-add:hover {
-            background: #fff;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-        }
-
-        /* Modal Fullscreen 3D View */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(5, 7, 10, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: none;
             justify-content: center;
-            align-items: center;
+            text-align: center;
+            padding: 6rem 1.5rem 3rem;
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 750px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Секция Карточек */
+        .features {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
             padding: 2rem;
+            border-radius: 12px;
+            transition: border-color 0.3s, transform 0.3s;
         }
 
-        .modal-overlay.active {
-            display: flex;
+        .card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
         }
 
-        .modal-container {
-            width: 100%;
-            max-width: 900px;
-            height: 80vh;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+        .card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--text-main);
         }
 
-        .modal-header {
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .modal-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 1px;
-        }
-
-        .modal-close {
-            background: transparent;
-            border: none;
+        .card p {
             color: var(--text-muted);
-            font-size: 2rem;
-            cursor: pointer;
-            transition: 0.3s;
+            font-size: 0.95rem;
         }
 
-        .modal-close:hover {
-            color: var(--accent-pink);
+        /* Футер */
+        footer {
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
-        .modal-body {
-            flex-grow: 1;
-            position: relative;
-        }
-
-        .modal-body model-viewer {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Responsive Breakpoints */
+        /* Адаптивность */
         @media (max-width: 768px) {
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-            .card-3d-wrapper {
-                height: 240px;
-            }
-            .hero-intro {
-                padding-top: 100px;
-            }
+            .hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-grid"></div>
-
-    <!-- Header -->
     <header>
-        <a href="#" class="brand-logo">
-            <svg class="adidas-icon" viewBox="0 0 100 60">
-                <polygon points="0,60 20,60 38,28 18,28" />
-                <polygon points="28,60 48,60 74,14 54,14" />
-                <polygon points="56,60 76,60 100,0 80,0" />
-            </svg>
-            <span class="brand-name">ADIDAS <span>3D CATALOG</span></span>
-        </a>
-
-        <div class="cart-widget" onclick="addToCart()">
-            <span>КОРЗИНА:</span>
-            <span class="cart-count" id="cart-count">0</span>
-        </div>
+        <nav>
+            <a href="#" class="logo">Dev<span>Site</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Intro Banner -->
-    <section class="hero-intro">
-        <h1>КРУТИ <span>ЛЮБОЙ КРОССОВОК</span></h1>
-        <p>Каждая модель в каталоге ниже является интерактивной 3D-моделью. Зажмите и тяните мышкой или пальцем, чтобы детально изучить любую пару со всех сторон.</p>
-        <div class="hint-badge">
-            <span>🖱️ На ПК: Зажмите левую кнопку мыши</span> | <span>📱 На телефоне: Двигайте пальцем</span>
-        </div>
-    </section>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Современный сайт для вашего проекта</h1>
+                <p>Быстрая загрузка, чистый код, адаптивная верстка под все устройства и стильный современный интерфейс.</p>
+                <a href="#services" class="btn">Узнать больше</a>
+            </div>
+        </section>
 
-    <!-- 3D Sneaker Catalog Grid -->
-    <section class="catalog-section">
-        <div class="product-grid">
-
-            <!-- Sneaker Card 1 -->
-            <div class="product-card">
-                <div class="card-badge">3D MODEL // NEON</div>
-                <div class="card-3d-wrapper">
-                    <model-viewer 
-                        id="shoe-1"
-                        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
-                        variant-name="Midnight"
-                        alt="Adidas Ultraboost 3D"
-                        auto-rotate
-                        camera-controls
-                        touch-action="pan-y"
-                        shadow-intensity="1.2"
-                        camera-orbit="45deg 75deg 105%"
-                        field-of-view="30deg">
-                    </model-viewer>
-                    <div class="card-3d-controls">
-                        <button class="btn-card-ctrl" onclick="toggleRotate('shoe-1')">🔄 360°</button>
-                        <button class="btn-card-ctrl" onclick="openModal('NMD_R1 V3 SPECTRAL', 'shoe-1', 'Midnight')">🔍 На весь экран</button>
-                    </div>
+        <section class="features" id="services">
+            <h2 class="section-title">Особенности проекта</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Высокая скорость</h3>
+                    <p>Минимальное количество сторонних зависимостей обеспечивает мгновенную страницу загрузки.</p>
                 </div>
-                <div class="card-info">
-                    <div class="card-title">NMD_R1 V3 SPECTRAL</div>
-                    <div class="card-desc">Футуристичный городской кроссовок с неоновыми элементами и мягкой подошвой Boost.</div>
+                <div class="card">
+                    <h3>Адаптивность</h3>
+                    <p>Интерфейс корректно отображается на смартфонах, планшетах и широкоформатных мониторах.</p>
                 </div>
-                <div class="card-footer">
-                    <div class="card-price">16 990 ₴</div>
-                    <button class="btn-add" onclick="addToCart()">В КОРЗИНУ</button>
+                <div class="card">
+                    <h3>Чистый дизайн</h3>
+                    <p>Тёмная цветовая гамма с аккуратными акцентами и продуманной типографикой.</p>
                 </div>
             </div>
+        </section>
+    </main>
 
-            <!-- Sneaker Card 2 -->
-            <div class="product-card">
-                <div class="card-badge">3D MODEL // CYAN EDITION</div>
-                <div class="card-3d-wrapper">
-                    <model-viewer 
-                        id="shoe-2"
-                        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
-                        variant-name="Beach"
-                        alt="Adidas 4DFWD 3D"
-                        auto-rotate
-                        camera-controls
-                        touch-action="pan-y"
-                        shadow-intensity="1.2"
-                        camera-orbit="-45deg 75deg 105%"
-                        field-of-view="30deg">
-                    </model-viewer>
-                    <div class="card-3d-controls">
-                        <button class="btn-card-ctrl" onclick="toggleRotate('shoe-2')">🔄 360°</button>
-                        <button class="btn-card-ctrl" onclick="openModal('4DFWD 3 MATRIX CYAN', 'shoe-2', 'Beach')">🔍 На весь экран</button>
-                    </div>
-                </div>
-                <div class="card-info">
-                    <div class="card-title">4DFWD 3 MATRIX CYAN</div>
-                    <div class="card-desc">Инновационная 3D-печатная решётчатая подошва, преобразующая ударную нагрузку в движение вперёд.</div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-price">22 490 ₴</div>
-                    <button class="btn-add" onclick="addToCart()">В КОРЗИНУ</button>
-                </div>
-            </div>
+    <footer id="contact">
+        <p>&copy; 2026 DevSite. Все права защищены.</p>
+    </footer>
 
-            <!-- Sneaker Card 3 -->
-            <div class="product-card">
-                <div class="card-badge">3D MODEL // STREET PINK</div>
-                <div class="card-3d-wrapper">
-                    <model-viewer 
-                        id="shoe-3"
-                        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
-                        variant-name="Street"
-                        alt="Adidas Forum Low 3D"
-                        auto-rotate
-                        camera-controls
-                        touch-action="pan-y"
-                        shadow-intensity="1.2"
-                        camera-orbit="120deg 75deg 105%"
-                        field-of-view="30deg">
-                    </model-viewer>
-                    <div class="card-3d-controls">
-                        <button class="btn-card-ctrl" onclick="toggleRotate('shoe-3')">🔄 360°</button>
-                        <button class="btn-card-ctrl" onclick="openModal('FORUM LOW CYBER PINK', 'shoe-3', 'Street')">🔍 На весь экран</button>
-                    </div>
-                </div>
-                <div class="card-info">
-                    <div class="card-title">FORUM LOW CYBER PINK</div>
-                    <div class="card-desc">Классический баскетбольный силуэт 80-х в современной уличной киберпанк интерпретации.</div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-price">13 890 ₴</div>
-                    <button class="btn-add" onclick="addToCart()">В КОРЗИНУ</button>
-                </div>
-            </div>
-
-            <!-- Sneaker Card 4 -->
-            <div class="product-card">
-                <div class="card-badge">3D MODEL // TOP ANGLE</div>
-                <div class="card-3d-wrapper">
-                    <model-viewer 
-                        id="shoe-4"
-                        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
-                        variant-name="Midnight"
-                        alt="Adidas Ultraboost Dark 3D"
-                        auto-rotate
-                        camera-controls
-                        touch-action="pan-y"
-                        shadow-intensity="1.2"
-                        camera-orbit="0deg 30deg 105%"
-                        field-of-view="30deg">
-                    </model-viewer>
-                    <div class="card-3d-controls">
-                        <button class="btn-card-ctrl" onclick="toggleRotate('shoe-4')">🔄 360°</button>
-                        <button class="btn-card-ctrl" onclick="openModal('ULTRABOOST LIGHT BLACK', 'shoe-4', 'Midnight')">🔍 На весь экран</button>
-                    </div>
-                </div>
-                <div class="card-info">
-                    <div class="card-title">ULTRABOOST LIGHT BLACK</div>
-                    <div class="card-desc">Самая лёгкая модель из линейки Ultraboost с максимальной амортизацией и защитой стопы.</div>
-                </div>
-                <div class="card-footer">
-                    <div class="card-price">18 500 ₴</div>
-                    <button class="btn-add" onclick="addToCart()">В КОРЗИНУ</button>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Modal Window for Fullscreen 3D Viewing -->
-    <div class="modal-overlay" id="3d-modal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <div class="modal-title" id="modal-title-text">3D-ПРОСМОТР КРОССОВКА</div>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <model-viewer 
-                    id="modal-viewer"
-                    src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
-                    auto-rotate
-                    camera-controls
-                    touch-action="pan-y"
-                    shadow-intensity="1.5"
-                    exposure="1.1"
-                    camera-orbit="45deg 75deg 105%"
-                    field-of-view="30deg">
-                </model-viewer>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Logic -->
-    <script>
-        // 1. Старт/Пауза вращения конкретной карточки
-        function toggleRotate(viewerId) {
-            const el = document.getElementById(viewerId);
-            if (el.hasAttribute('auto-rotate')) 
+</body>
+</html>
