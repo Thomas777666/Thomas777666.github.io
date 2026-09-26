@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>ADIDAS // 3D FUTUREWEAR</title>
+    <title>ADIDAS // 360° INTERACTIVE 3D</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- Three.js for 3D Graphics -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Model Viewer (Modern 3D Web Component) -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         :root {
-            --bg-primary: #0a0a0c;
-            --bg-card: rgba(20, 20, 24, 0.7);
+            --bg-primary: #080a0f;
+            --bg-card: rgba(16, 21, 31, 0.75);
             --accent-neon: #ccff00;
             --accent-cyan: #00f2fe;
+            --accent-pink: #ff007f;
             --text-main: #ffffff;
             --text-muted: #94a3b8;
-            --border-subtle: rgba(255, 255, 255, 0.1);
+            --border-subtle: rgba(204, 255, 0, 0.2);
         }
 
         * {
@@ -29,7 +30,6 @@
 
         html {
             scroll-behavior: smooth;
-            overflow-x: hidden;
         }
 
         body {
@@ -39,28 +39,22 @@
             min-height: 100vh;
         }
 
-        /* 3-Stripes Subtle Background */
-        .brand-stripes-bg {
+        /* Ambient Animated Grid Background */
+        .bg-grid {
             position: fixed;
             top: 0;
-            right: -10%;
-            width: 50vw;
+            left: 0;
+            width: 100vw;
             height: 100vh;
-            display: flex;
-            gap: 25px;
-            transform: rotate(-25deg);
-            opacity: 0.03;
+            background-image: 
+                linear-gradient(rgba(204, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(204, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
             z-index: 0;
         }
 
-        .stripe {
-            width: 40px;
-            height: 150%;
-            background: #fff;
-        }
-
-        /* Header / Navigation */
+        /* Navigation Header */
         header {
             position: fixed;
             top: 0;
@@ -69,9 +63,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.2rem 6%;
-            background: rgba(10, 10, 12, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(8, 10, 15, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-subtle);
             z-index: 1000;
         }
@@ -82,7 +76,6 @@
             gap: 12px;
             text-decoration: none;
             color: #fff;
-            z-index: 1002;
         }
 
         .adidas-icon {
@@ -93,496 +86,343 @@
 
         .brand-name {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             letter-spacing: 2px;
         }
 
-        /* Desktop Nav */
-        nav {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
+        .brand-name span {
             color: var(--accent-neon);
-        }
-
-        /* Mobile Hamburger Toggle */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 28px;
-            height: 18px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            z-index: 1002;
-        }
-
-        .menu-toggle span {
-            width: 100%;
-            height: 2px;
-            background-color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .menu-toggle.open span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-            background-color: var(--accent-neon);
-        }
-        .menu-toggle.open span:nth-child(2) {
-            opacity: 0;
-        }
-        .menu-toggle.open span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-            background-color: var(--accent-neon);
-        }
-
-        /* Header Cart Widget */
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
         }
 
         .cart-widget {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: rgba(255, 255, 255, 0.05);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 30px;
             border: 1px solid var(--border-subtle);
             cursor: pointer;
             transition: 0.3s ease;
-            user-select: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
         }
 
         .cart-widget:hover {
             border-color: var(--accent-neon);
-            color: var(--accent-neon);
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
         }
 
         .cart-count {
             background: var(--accent-neon);
             color: #000;
             font-weight: 800;
-            font-size: 0.75rem;
-            padding: 2px 7px;
+            padding: 2px 8px;
             border-radius: 50%;
         }
 
-        /* Hero Section */
-        .hero {
-            position: relative;
+        /* Hero 3D Section */
+        .hero-3d-section {
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 120px 8% 60px 8%;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .hero-grid {
+            padding: 110px 6% 40px 6%;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            width: 100%;
+            grid-template-columns: 1fr 1.2fr;
             align-items: center;
             gap: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .hero-content {
-            z-index: 2;
+        .hero-text {
+            max-width: 550px;
         }
 
-        .hero-tag {
+        .badge-3d {
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            background: rgba(204, 255, 0, 0.1);
+            border: 1px solid var(--accent-neon);
             color: var(--accent-neon);
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.15);
         }
 
-        .hero h1 {
+        .hero-text h1 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(3.5rem, 7vw, 6rem);
+            font-size: clamp(3.5rem, 6vw, 5.8rem);
             line-height: 0.95;
             letter-spacing: 2px;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
+            margin-bottom: 1.2rem;
         }
 
-        .hero h1 span {
+        .hero-text h1 span {
             color: transparent;
-            -webkit-text-stroke: 1.5px #fff;
+            -webkit-text-stroke: 1.5px var(--accent-neon);
         }
 
-        .hero p {
+        .hero-text p {
             color: var(--text-muted);
-            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            font-size: 1.05rem;
             line-height: 1.6;
-            margin-bottom: 2.5rem;
-            max-width: 520px;
+            margin-bottom: 2rem;
         }
 
-        .cta-group {
+        .instructions-tag {
             display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-adidas {
-            background: var(--accent-neon);
-            color: #000;
-            font-weight: 800;
-            text-transform: uppercase;
-            padding: 16px 36px;
-            border: none;
-            letter-spacing: 1.5px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn-adidas:hover {
-            background: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(204, 255, 0, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #fff;
-            border: 1px solid var(--border-subtle);
-            padding: 15px 32px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.3s ease;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
         }
 
-        .btn-outline:hover {
-            border-color: #fff;
-            background: rgba(255, 255, 255, 0.05);
+        .pulse-icon {
+            width: 10px;
+            height: 10px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-cyan);
+            animation: pulse 1.5s infinite;
         }
 
-        /* 3D WebGL Canvas Container */
-        .hero-3d-wrapper {
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        /* 3D Model Viewer Container */
+        .viewer-container {
             position: relative;
             width: 100%;
-            height: 480px;
+            height: 580px;
+            background: radial-gradient(circle, rgba(204, 255, 0, 0.08) 0%, rgba(10, 10, 15, 0.9) 70%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        #three-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+        model-viewer {
             width: 100%;
             height: 100%;
-            outline: none;
-            cursor: grab;
+            --poster-color: transparent;
         }
 
-        #three-canvas:active {
-            cursor: grabbing;
-        }
-
-        .sneaker-overlay-img {
+        /* Custom 3D Controls Bar */
+        .controls-overlay {
             position: absolute;
-            width: 85%;
-            max-width: 450px;
-            pointer-events: none;
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
-            transform: rotate(-15deg) translateZ(50px);
-            animation: floatSneaker 4s ease-in-out infinite alternate;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            background: rgba(16, 21, 31, 0.85);
+            padding: 10px 18px;
+            border-radius: 40px;
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(12px);
+            z-index: 10;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        @keyframes floatSneaker {
-            0% { transform: rotate(-15deg) translateY(0px); }
-            100% { transform: rotate(-12deg) translateY(-18px); }
+        .control-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* Catalog Section */
-        .section-catalog {
-            padding: 5rem 8%;
+        .control-btn:hover, .control-btn.active {
+            background: var(--accent-neon);
+            color: #000;
+            border-color: var(--accent-neon);
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+        }
+
+        /* Color Selector Buttons */
+        .color-variants {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .variant-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .variant-dot:hover, .variant-dot.active {
+            transform: scale(1.2);
+            border-color: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Catalog / Cards Section */
+        .catalog-section {
+            padding: 5rem 6%;
             position: relative;
             z-index: 1;
         }
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
         .section-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-size: 3rem;
             letter-spacing: 2px;
+            margin-bottom: 2.5rem;
         }
 
         .section-title span {
             color: var(--accent-neon);
         }
 
-        .filter-tabs {
-            display: flex;
-            gap: 0.8rem;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-
-        .filter-btn.active, .filter-btn:hover {
-            color: #fff;
-            border-bottom: 2px solid var(--accent-neon);
-        }
-
-        /* 3D Interactive Product Cards Grid */
-        .products-grid {
+        .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            perspective: 1000px; /* 3D Perspective Context */
         }
 
         .product-card {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 1.8rem;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s ease;
             position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(10px);
-            will-change: transform;
+            overflow: hidden;
         }
 
         .product-card:hover {
-            border-color: rgba(204, 255, 0, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            transform: translateY(-8px);
+            border-color: var(--accent-neon);
+            box-shadow: 0 15px 35px rgba(204, 255, 0, 0.15);
         }
 
-        .card-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #fff;
-            color: #000;
-            font-weight: 800;
-            font-size: 0.7rem;
-            padding: 4px 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transform: translateZ(30px);
-        }
-
-        .product-img-wrapper {
+        .card-img-wrapper {
             height: 200px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin: 1rem 0;
-            transform-style: preserve-3d;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
-        .product-img {
+        .card-img-wrapper img {
             max-width: 100%;
             max-height: 170px;
             object-fit: contain;
-            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.6));
-            transform: translateZ(45px); /* Pop out in 3D */
-            transition: transform 0.3s ease;
-            pointer-events: none;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
         }
 
-        .product-info {
-            transform: translateZ(25px);
+        .product-card:hover .card-img-wrapper img {
+            transform: scale(1.1) rotate(-6deg);
         }
 
-        .product-info h3 {
+        .card-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             letter-spacing: 1px;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
         }
 
-        .product-category {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.2rem;
-        }
-
-        .product-bottom {
+        .card-price-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid var(--border-subtle);
+            margin-top: 1rem;
             padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .price {
+        .price-tag {
             font-weight: 800;
             font-size: 1.2rem;
-            color: #fff;
         }
 
-        .add-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #fff;
-            padding: 10px 18px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .add-btn:hover {
+        .btn-buy {
             background: var(--accent-neon);
             color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.3s ease;
+            text-transform: uppercase;
         }
 
-        /* Mobile Optimization Media Queries */
+        .btn-buy:hover {
+            background: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 992px) {
-            .hero-grid {
+            .hero-3d-section {
                 grid-template-columns: 1fr;
                 text-align: center;
+                padding-top: 100px;
             }
-            .hero-content {
+            .hero-text {
+                max-width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
-            .cta-group {
-                justify-content: center;
-                width: 100%;
+            .viewer-container {
+                height: 440px;
             }
-            .hero-3d-wrapper {
+            .controls-overlay {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .viewer-container {
                 height: 380px;
             }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem 5%;
+            .control-btn {
+                padding: 6px 10px;
+                font-size: 0.75rem;
             }
-            .menu-toggle {
-                display: flex;
-            }
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 75vw;
-                height: 100vh;
-                background: rgba(10, 10, 12, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2.5rem;
-                transition: right 0.4s ease-in-out;
-                z-index: 1001;
-                border-left: 1px solid var(--border-subtle);
-            }
-            .nav-links.active {
-                right: 0;
-            }
-            .nav-links a {
-                font-size: 1.2rem;
-            }
-            .btn-adidas, .btn-outline {
-                width: 100%;
-            }
-            .section-catalog {
-                padding: 3.5rem 5%;
-            }
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border-subtle);
-            padding: 2.5rem 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #fff;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.4rem;
-            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
 
-    <!-- 3-Stripes Background Accent -->
-    <div class="brand-stripes-bg">
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-    </div>
+    <div class="bg-grid"></div>
 
-    <!-- Header Navigation -->
+    <!-- Navigation -->
     <header>
         <a href="#" class="brand-logo">
             <svg class="adidas-icon" viewBox="0 0 100 60">
@@ -590,91 +430,158 @@
                 <polygon points="28,60 48,60 74,14 54,14" />
                 <polygon points="56,60 76,60 100,0 80,0" />
             </svg>
-            <span class="brand-name">ADIDAS // 3D</span>
+            <span class="brand-name">ADIDAS <span>360°</span></span>
         </a>
 
-        <nav>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#" class="active">Footwear</a></li>
-                <li><a href="#catalog">Apparel</a></li>
-                <li><a href="#catalog">4D Lab</a></li>
-                <li><a href="#catalog">Drops</a></li>
-            </ul>
-        </nav>
-
-        <div class="header-actions">
-            <div class="cart-widget" id="cart-widget">
-                <span>BAG</span>
-                <span class="cart-count" id="cart-count">0</span>
-            </div>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+        <div class="cart-widget" onclick="addToCart()">
+            <span>КОРЗИНА:</span>
+            <span class="cart-count" id="cart-count">0</span>
         </div>
     </header>
 
-    <!-- Main Hero Banner -->
-    <section class="hero">
-        <div class="hero-grid">
-            <div class="hero-content">
-                <div class="hero-tag">
-                    <span>///</span> 3D LATTICE ENGINE
-                </div>
-                <h1>INTERACTIVE <span>FUTUREWEAR</span></h1>
-                <p>Experience the next generation of athletic technology. Powered by 3D digital light synthesis and responsive energy-return lattice structures.</p>
-                <div class="cta-group">
-                    <a href="#catalog" class="btn-adidas">EXPLORE DROPS</a>
-                    <button class="btn-outline">RUN 3D LAB</button>
-                </div>
+    <!-- Main 3D Hero Section -->
+    <section class="hero-3d-section">
+        <div class="hero-text">
+            <div class="badge-3d">/// REALTIME WEBGL 3D MODEL</div>
+            <h1>ПОКРУТИ <span>КРОССОВОК</span> НА 360°</h1>
+            <p>Интерактивная 3D-презентация флагманской модели. Вращайте, зажимайте мышкой или пальцем, приближайте детали и переключайте цветовые комбинации.</p>
+
+            <div class="instructions-tag">
+                <div class="pulse-icon"></div>
+                <span>Зажмите и потяните, чтобы повернуть модель</span>
+            </div>
+        </div>
+
+        <!-- Interactive 3D Model Viewer Container -->
+        <div class="viewer-container">
+            
+            <!-- Color Variant Dots -->
+            <div class="color-variants">
+                <div class="variant-dot active" style="background: #ccff00;" onclick="switchVariant('Midnight', this)" title="Neon Style"></div>
+                <div class="variant-dot" style="background: #00f2fe;" onclick="switchVariant('Beach', this)" title="Cyan Style"></div>
+                <div class="variant-dot" style="background: #ff007f;" onclick="switchVariant('Street', this)" title="Pink Style"></div>
             </div>
 
-            <!-- Three.js 3D Interactive Canvas -->
-            <div class="hero-3d-wrapper">
-                <canvas id="three-canvas"></canvas>
-                <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80" alt="Adidas Sneaker" class="sneaker-overlay-img">
+            <!-- 3D Model Tag -->
+            <model-viewer 
+                id="shoe-viewer"
+                src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
+                alt="3D Interactive Sneaker"
+                auto-rotate
+                camera-controls
+                touch-action="pan-y"
+                shadow-intensity="1.5"
+                shadow-softness="1"
+                exposure="1.1"
+                environment-image="neutral"
+                camera-orbit="45deg 75deg 105%"
+                field-of-view="30deg">
+            </model-viewer>
+
+            <!-- Interactive 3D Controls -->
+            <div class="controls-overlay">
+                <button class="control-btn active" id="rotate-btn" onclick="toggleAutoRotate()">
+                    🔄 <span id="rotate-text">Пауза 360°</span>
+                </button>
+                <button class="control-btn" onclick="setCamera('0deg 75deg 100%')">📐 Сбоку</button>
+                <button class="control-btn" onclick="setCamera('90deg 85deg 100%')">👟 Спереди</button>
+                <button class="control-btn" onclick="setCamera('0deg 10deg 100%')">🔝 Сверху</button>
             </div>
         </div>
     </section>
 
     <!-- Catalog Section -->
-    <section class="section-catalog" id="catalog">
-        <div class="section-header">
-            <h2 class="section-title">3D TILT <span>COLLECTION</span></h2>
-            <div class="filter-tabs">
-                <button class="filter-btn active">ALL DROPS</button>
-                <button class="filter-btn">RUNNING</button>
-                <button class="filter-btn">ORIGINALS</button>
+    <section class="catalog-section">
+        <h2 class="section-title">ПОПУЛЯРНЫЕ <span>ДРОПЫ</span></h2>
+        <div class="product-grid">
+            
+            <div class="product-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80" alt="Adidas NMD">
+                </div>
+                <div class="card-title">NMD_R1 V3 SPECTRAL</div>
+                <div style="color: var(--text-muted); font-size: 0.85rem;">Streetwear / Boost</div>
+                <div class="card-price-row">
+                    <div class="price-tag">16 990 ₴</div>
+                    <button class="btn-buy" onclick="addToCart()">В КОРЗИНУ</button>
+                </div>
             </div>
+
+            <div class="product-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80" alt="Adidas 4D">
+                </div>
+                <div class="card-title">4DFWD 3 MATRIX</div>
+                <div style="color: var(--text-muted); font-size: 0.85rem;">3D Printed Sole</div>
+                <div class="card-price-row">
+                    <div class="price-tag">22 490 ₴</div>
+                    <button class="btn-buy" onclick="addToCart()">В КОРЗИНУ</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=600&q=80" alt="Adidas Forum">
+                </div>
+                <div class="card-title">FORUM LOW CYBER</div>
+                <div style="color: var(--text-muted); font-size: 0.85rem;">Classic / Cyber</div>
+                <div class="card-price-row">
+                    <div class="price-tag">13 890 ₴</div>
+                    <button class="btn-buy" onclick="addToCart()">В КОРЗИНУ</button>
+                </div>
+            </div>
+
         </div>
+    </section>
 
-        <div class="products-grid">
-            <!-- Product Card 1 -->
-            <div class="product-card" data-tilt>
-                <div class="card-badge">3D PRINTED</div>
-                <div class="product-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80" class="product-img" alt="NMD R1">
-                </div>
-                <div class="product-info">
-                    <h3>NMD_R1 V3 SPECTRAL</h3>
-                    <div class="product-category">Originals / Cyberwear</div>
-                    <div class="product-bottom">
-                        <div class="price">$160</div>
-                        <button class="add-btn" onclick="addToCart()">ADD +</button>
-                    </div>
-                </div>
-            </div>
+    <!-- JavaScript logic -->
+    <script>
+        const viewer = document.getElementById('shoe-viewer');
+        const rotateBtn = document.getElementById('rotate-btn');
+        const rotateText = document.getElementById('rotate-text');
 
-            <!-- Product Card 2 -->
-            <div class="product-card" data-tilt>
-                <div class="card-badge">4D LATTICE</div>
-                <div class="product-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80" class="product-img" alt="4DFWD 3">
-                </div>
-                <div class="product-info">
-                    <h3>4DFWD 3 MATRIX</h3>
-                    <div class="product-category">3D Printed Sole</div>
-                    <div class="product-bottom">
-                        <div class="price">$220</div>
-    
+        // 1. Включение / выключение авто-вращения 3D
+        function toggleAutoRotate() {
+            if (viewer.hasAttribute('auto-rotate')) {
+                viewer.removeAttribute('auto-rotate');
+                rotateBtn.classList.remove('active');
+                rotateText.textContent = 'Старт 360°';
+            } else {
+                viewer.setAttribute('auto-rotate', '');
+                rotateBtn.classList.add('active');
+                rotateText.textContent = 'Пауза 360°';
+            }
+        }
+
+        // 2. Смена ракурсов камеры
+        function setCamera(orbit) {
+            viewer.cameraOrbit = orbit;
+        }
+
+        // 3. Интерактивная смена материалов/расцветок 3D-модели
+        async function switchVariant(variantName, element) {
+            // Обновляем выделение кнопки
+            document.querySelectorAll('.variant-dot').forEach(dot => dot.classList.remove('active'));
+            element.classList.add('active');
+
+            // Проверяем доступность вариантов в 3D модели
+            const availableVariants = await viewer.availableVariants;
+            if (availableVariants && availableVariants.includes(variantName)) {
+                viewer.variantName = variantName;
+            } else if (availableVariants && availableVariants.length > 0) {
+                // Если указанный вариант отсутствует, переключаем на следующий по индексу
+                const index = Array.from(element.parentElement.children).indexOf(element) % availableVariants.length;
+                viewer.variantName = availableVariants[index];
+            }
+        }
+
+        // 4. Корзина
+        let cartItems = 0;
+        function addToCart() {
+            cartItems++;
+            document.getElementById('cart-count').textContent = cartItems;
+        }
+    </script>
+</body>
+</html>
+
