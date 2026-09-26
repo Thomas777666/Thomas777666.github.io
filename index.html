@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>ADIDAS // 360° INTERACTIVE 3D</title>
+    <title>ADIDAS // 3D ALL-SNEAKERS CATALOG</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Google Model Viewer (Modern 3D Web Component) -->
+    <!-- Google Model Viewer (3D Engine) -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         :root {
             --bg-primary: #080a0f;
-            --bg-card: rgba(16, 21, 31, 0.75);
+            --bg-card: rgba(16, 21, 31, 0.8);
             --accent-neon: #ccff00;
             --accent-cyan: #00f2fe;
             --accent-pink: #ff007f;
@@ -28,10 +28,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             background-color: var(--bg-primary);
             color: var(--text-main);
@@ -39,7 +35,7 @@
             min-height: 100vh;
         }
 
-        /* Ambient Animated Grid Background */
+        /* Ambient Grid Background */
         .bg-grid {
             position: fixed;
             top: 0;
@@ -47,14 +43,14 @@
             width: 100vw;
             height: 100vh;
             background-image: 
-                linear-gradient(rgba(204, 255, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(204, 255, 0, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(204, 255, 0, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(204, 255, 0, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Navigation Header */
+        /* Header */
         header {
             position: fixed;
             top: 0;
@@ -63,7 +59,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.2rem 6%;
-            background: rgba(8, 10, 15, 0.85);
+            background: rgba(8, 10, 15, 0.88);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-subtle);
@@ -121,299 +117,273 @@
             border-radius: 50%;
         }
 
-        /* Hero 3D Section */
-        .hero-3d-section {
-            min-height: 100vh;
-            padding: 110px 6% 40px 6%;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            align-items: center;
-            gap: 2rem;
+        /* Hero Intro Section */
+        .hero-intro {
+            padding: 120px 6% 40px 6%;
+            text-align: center;
             position: relative;
             z-index: 1;
         }
 
-        .hero-text {
-            max-width: 550px;
+        .hero-intro h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 0.95;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
         }
 
-        .badge-3d {
+        .hero-intro h1 span {
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--accent-neon);
+        }
+
+        .hero-intro p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .hint-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             background: rgba(204, 255, 0, 0.1);
             border: 1px solid var(--accent-neon);
             color: var(--accent-neon);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            margin-bottom: 1.2rem;
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.15);
-        }
-
-        .hero-text h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(3.5rem, 6vw, 5.8rem);
-            line-height: 0.95;
-            letter-spacing: 2px;
-            margin-bottom: 1.2rem;
-        }
-
-        .hero-text h1 span {
-            color: transparent;
-            -webkit-text-stroke: 1.5px var(--accent-neon);
-        }
-
-        .hero-text p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .instructions-tag {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            padding: 8px 18px;
+            border-radius: 30px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
-            color: var(--accent-cyan);
-            margin-bottom: 2rem;
         }
 
-        .pulse-icon {
-            width: 10px;
-            height: 10px;
-            background: var(--accent-cyan);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-cyan);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.3); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
-
-        /* 3D Model Viewer Container */
-        .viewer-container {
-            position: relative;
-            width: 100%;
-            height: 580px;
-            background: radial-gradient(circle, rgba(204, 255, 0, 0.08) 0%, rgba(10, 10, 15, 0.9) 70%);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            --poster-color: transparent;
-        }
-
-        /* Custom 3D Controls Bar */
-        .controls-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            background: rgba(16, 21, 31, 0.85);
-            padding: 10px 18px;
-            border-radius: 40px;
-            border: 1px solid var(--border-subtle);
-            backdrop-filter: blur(12px);
-            z-index: 10;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .control-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'JetBrains Mono', monospace;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .control-btn:hover, .control-btn.active {
-            background: var(--accent-neon);
-            color: #000;
-            border-color: var(--accent-neon);
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
-        }
-
-        /* Color Selector Buttons */
-        .color-variants {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .variant-dot {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .variant-dot:hover, .variant-dot.active {
-            transform: scale(1.2);
-            border-color: #fff;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-        }
-
-        /* Catalog / Cards Section */
+        /* 3D Catalog Grid */
         .catalog-section {
-            padding: 5rem 6%;
+            padding: 2rem 6% 6rem 6%;
             position: relative;
             z-index: 1;
         }
 
-        .section-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3rem;
-            letter-spacing: 2px;
-            margin-bottom: 2.5rem;
-        }
-
-        .section-title span {
-            color: var(--accent-neon);
-        }
-
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
         }
 
         .product-card {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1.5rem;
-            transition: all 0.4s ease;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
             position: relative;
-            overflow: hidden;
         }
 
         .product-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-neon);
-            box-shadow: 0 15px 35px rgba(204, 255, 0, 0.15);
+            border-color: rgba(204, 255, 0, 0.6);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(204, 255, 0, 0.1);
         }
 
-        .card-img-wrapper {
-            height: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .card-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(204, 255, 0, 0.15);
+            border: 1px solid var(--accent-neon);
+            color: var(--accent-neon);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        /* Inline 3D Model Viewer Inside Each Card */
+        .card-3d-wrapper {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            background: radial-gradient(circle, rgba(204, 255, 0, 0.05) 0%, transparent 70%);
+            border-radius: 12px;
             margin-bottom: 1rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .card-img-wrapper img {
-            max-width: 100%;
-            max-height: 170px;
-            object-fit: contain;
-            transition: transform 0.4s ease;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+        .card-3d-wrapper model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
         }
 
-        .product-card:hover .card-img-wrapper img {
-            transform: scale(1.1) rotate(-6deg);
+        /* Controls Inside Card */
+        .card-3d-controls {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .btn-card-ctrl {
+            background: rgba(8, 10, 15, 0.85);
+            border: 1px solid var(--border-subtle);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .btn-card-ctrl:hover {
+            background: var(--accent-neon);
+            color: #000;
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex-grow: 1;
         }
 
         .card-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            margin-top: 0.3rem;
         }
 
-        .card-price-row {
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
             padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .price-tag {
+        .card-price {
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-neon);
         }
 
-        .btn-buy {
+        .btn-add {
             background: var(--accent-neon);
             color: #000;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 22px;
             font-weight: 800;
             font-size: 0.85rem;
             cursor: pointer;
-            border-radius: 4px;
-            transition: 0.3s ease;
+            border-radius: 6px;
+            transition: all 0.3s ease;
             text-transform: uppercase;
         }
 
-        .btn-buy:hover {
+        .btn-add:hover {
             background: #fff;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 992px) {
-            .hero-3d-section {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding-top: 100px;
-            }
-            .hero-text {
-                max-width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .viewer-container {
-                height: 440px;
-            }
-            .controls-overlay {
-                width: 90%;
-            }
+        /* Modal Fullscreen 3D View */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 7, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
         }
 
-        @media (max-width: 480px) {
-            .viewer-container {
-                height: 380px;
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-container {
+            width: 100%;
+            max-width: 900px;
+            height: 80vh;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-pink);
+        }
+
+        .modal-body {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .modal-body model-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
             }
-            .control-btn {
-                padding: 6px 10px;
-                font-size: 0.75rem;
+            .card-3d-wrapper {
+                height: 240px;
+            }
+            .hero-intro {
+                padding-top: 100px;
             }
         }
     </style>
@@ -422,7 +392,7 @@
 
     <div class="bg-grid"></div>
 
-    <!-- Navigation -->
+    <!-- Header -->
     <header>
         <a href="#" class="brand-logo">
             <svg class="adidas-icon" viewBox="0 0 100 60">
@@ -430,7 +400,7 @@
                 <polygon points="28,60 48,60 74,14 54,14" />
                 <polygon points="56,60 76,60 100,0 80,0" />
             </svg>
-            <span class="brand-name">ADIDAS <span>360°</span></span>
+            <span class="brand-name">ADIDAS <span>3D CATALOG</span></span>
         </a>
 
         <div class="cart-widget" onclick="addToCart()">
@@ -439,149 +409,172 @@
         </div>
     </header>
 
-    <!-- Main 3D Hero Section -->
-    <section class="hero-3d-section">
-        <div class="hero-text">
-            <div class="badge-3d">/// REALTIME WEBGL 3D MODEL</div>
-            <h1>ПОКРУТИ <span>КРОССОВОК</span> НА 360°</h1>
-            <p>Интерактивная 3D-презентация флагманской модели. Вращайте, зажимайте мышкой или пальцем, приближайте детали и переключайте цветовые комбинации.</p>
-
-            <div class="instructions-tag">
-                <div class="pulse-icon"></div>
-                <span>Зажмите и потяните, чтобы повернуть модель</span>
-            </div>
-        </div>
-
-        <!-- Interactive 3D Model Viewer Container -->
-        <div class="viewer-container">
-            
-            <!-- Color Variant Dots -->
-            <div class="color-variants">
-                <div class="variant-dot active" style="background: #ccff00;" onclick="switchVariant('Midnight', this)" title="Neon Style"></div>
-                <div class="variant-dot" style="background: #00f2fe;" onclick="switchVariant('Beach', this)" title="Cyan Style"></div>
-                <div class="variant-dot" style="background: #ff007f;" onclick="switchVariant('Street', this)" title="Pink Style"></div>
-            </div>
-
-            <!-- 3D Model Tag -->
-            <model-viewer 
-                id="shoe-viewer"
-                src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
-                alt="3D Interactive Sneaker"
-                auto-rotate
-                camera-controls
-                touch-action="pan-y"
-                shadow-intensity="1.5"
-                shadow-softness="1"
-                exposure="1.1"
-                environment-image="neutral"
-                camera-orbit="45deg 75deg 105%"
-                field-of-view="30deg">
-            </model-viewer>
-
-            <!-- Interactive 3D Controls -->
-            <div class="controls-overlay">
-                <button class="control-btn active" id="rotate-btn" onclick="toggleAutoRotate()">
-                    🔄 <span id="rotate-text">Пауза 360°</span>
-                </button>
-                <button class="control-btn" onclick="setCamera('0deg 75deg 100%')">📐 Сбоку</button>
-                <button class="control-btn" onclick="setCamera('90deg 85deg 100%')">👟 Спереди</button>
-                <button class="control-btn" onclick="setCamera('0deg 10deg 100%')">🔝 Сверху</button>
-            </div>
+    <!-- Intro Banner -->
+    <section class="hero-intro">
+        <h1>КРУТИ <span>ЛЮБОЙ КРОССОВОК</span></h1>
+        <p>Каждая модель в каталоге ниже является интерактивной 3D-моделью. Зажмите и тяните мышкой или пальцем, чтобы детально изучить любую пару со всех сторон.</p>
+        <div class="hint-badge">
+            <span>🖱️ На ПК: Зажмите левую кнопку мыши</span> | <span>📱 На телефоне: Двигайте пальцем</span>
         </div>
     </section>
 
-    <!-- Catalog Section -->
+    <!-- 3D Sneaker Catalog Grid -->
     <section class="catalog-section">
-        <h2 class="section-title">ПОПУЛЯРНЫЕ <span>ДРОПЫ</span></h2>
         <div class="product-grid">
-            
+
+            <!-- Sneaker Card 1 -->
             <div class="product-card">
-                <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80" alt="Adidas NMD">
+                <div class="card-badge">3D MODEL // NEON</div>
+                <div class="card-3d-wrapper">
+                    <model-viewer 
+                        id="shoe-1"
+                        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
+                        variant-name="Midnight"
+                        alt="Adidas Ultraboost 3D"
+                        auto-rotate
+                        camera-controls
+                        touch-action="pan-y"
+                        shadow-intensity="1.2"
+                        camera-orbit="45deg 75deg 105%"
+                        field-of-view="30deg">
+                    </model-viewer>
+                    <div class="card-3d-controls">
+                        <button class="btn-card-ctrl" onclick="toggleRotate('shoe-1')">🔄 360°</button>
+                        <button class="btn-card-ctrl" onclick="openModal('NMD_R1 V3 SPECTRAL', 'shoe-1', 'Midnight')">🔍 На весь экран</button>
+                    </div>
                 </div>
-                <div class="card-title">NMD_R1 V3 SPECTRAL</div>
-                <div style="color: var(--text-muted); font-size: 0.85rem;">Streetwear / Boost</div>
-                <div class="card-price-row">
-                    <div class="price-tag">16 990 ₴</div>
-                    <button class="btn-buy" onclick="addToCart()">В КОРЗИНУ</button>
+                <div class="card-info">
+                    <div class="card-title">NMD_R1 V3 SPECTRAL</div>
+                    <div class="card-desc">Футуристичный городской кроссовок с неоновыми элементами и мягкой подошвой Boost.</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">16 990 ₴</div>
+                    <button class="btn-add" onclick="addToCart()">В КОРЗИНУ</button>
                 </div>
             </div>
 
+            <!-- Sneaker Card 2 -->
             <div class="product-card">
-                <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80" alt="Adidas 4D">
+                <div class="card-badge">3D MODEL // CYAN EDITION</div>
+                <div class="card-3d-wrapper">
+                    <model-viewer 
+                        id="shoe-2"
+                        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
+                        variant-name="Beach"
+                        alt="Adidas 4DFWD 3D"
+                        auto-rotate
+                        camera-controls
+                        touch-action="pan-y"
+                        shadow-intensity="1.2"
+                        camera-orbit="-45deg 75deg 105%"
+                        field-of-view="30deg">
+                    </model-viewer>
+                    <div class="card-3d-controls">
+                        <button class="btn-card-ctrl" onclick="toggleRotate('shoe-2')">🔄 360°</button>
+                        <button class="btn-card-ctrl" onclick="openModal('4DFWD 3 MATRIX CYAN', 'shoe-2', 'Beach')">🔍 На весь экран</button>
+                    </div>
                 </div>
-                <div class="card-title">4DFWD 3 MATRIX</div>
-                <div style="color: var(--text-muted); font-size: 0.85rem;">3D Printed Sole</div>
-                <div class="card-price-row">
-                    <div class="price-tag">22 490 ₴</div>
-                    <button class="btn-buy" onclick="addToCart()">В КОРЗИНУ</button>
+                <div class="card-info">
+                    <div class="card-title">4DFWD 3 MATRIX CYAN</div>
+                    <div class="card-desc">Инновационная 3D-печатная решётчатая подошва, преобразующая ударную нагрузку в движение вперёд.</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">22 490 ₴</div>
+                    <button class="btn-add" onclick="addToCart()">В КОРЗИНУ</button>
                 </div>
             </div>
 
+            <!-- Sneaker Card 3 -->
             <div class="product-card">
-                <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=600&q=80" alt="Adidas Forum">
+                <div class="card-badge">3D MODEL // STREET PINK</div>
+                <div class="card-3d-wrapper">
+                    <model-viewer 
+                        id="shoe-3"
+                        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
+                        variant-name="Street"
+                        alt="Adidas Forum Low 3D"
+                        auto-rotate
+                        camera-controls
+                        touch-action="pan-y"
+                        shadow-intensity="1.2"
+                        camera-orbit="120deg 75deg 105%"
+                        field-of-view="30deg">
+                    </model-viewer>
+                    <div class="card-3d-controls">
+                        <button class="btn-card-ctrl" onclick="toggleRotate('shoe-3')">🔄 360°</button>
+                        <button class="btn-card-ctrl" onclick="openModal('FORUM LOW CYBER PINK', 'shoe-3', 'Street')">🔍 На весь экран</button>
+                    </div>
                 </div>
-                <div class="card-title">FORUM LOW CYBER</div>
-                <div style="color: var(--text-muted); font-size: 0.85rem;">Classic / Cyber</div>
-                <div class="card-price-row">
-                    <div class="price-tag">13 890 ₴</div>
-                    <button class="btn-buy" onclick="addToCart()">В КОРЗИНУ</button>
+                <div class="card-info">
+                    <div class="card-title">FORUM LOW CYBER PINK</div>
+                    <div class="card-desc">Классический баскетбольный силуэт 80-х в современной уличной киберпанк интерпретации.</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">13 890 ₴</div>
+                    <button class="btn-add" onclick="addToCart()">В КОРЗИНУ</button>
+                </div>
+            </div>
+
+            <!-- Sneaker Card 4 -->
+            <div class="product-card">
+                <div class="card-badge">3D MODEL // TOP ANGLE</div>
+                <div class="card-3d-wrapper">
+                    <model-viewer 
+                        id="shoe-4"
+                        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
+                        variant-name="Midnight"
+                        alt="Adidas Ultraboost Dark 3D"
+                        auto-rotate
+                        camera-controls
+                        touch-action="pan-y"
+                        shadow-intensity="1.2"
+                        camera-orbit="0deg 30deg 105%"
+                        field-of-view="30deg">
+                    </model-viewer>
+                    <div class="card-3d-controls">
+                        <button class="btn-card-ctrl" onclick="toggleRotate('shoe-4')">🔄 360°</button>
+                        <button class="btn-card-ctrl" onclick="openModal('ULTRABOOST LIGHT BLACK', 'shoe-4', 'Midnight')">🔍 На весь экран</button>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">ULTRABOOST LIGHT BLACK</div>
+                    <div class="card-desc">Самая лёгкая модель из линейки Ultraboost с максимальной амортизацией и защитой стопы.</div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-price">18 500 ₴</div>
+                    <button class="btn-add" onclick="addToCart()">В КОРЗИНУ</button>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <!-- JavaScript logic -->
+    <!-- Modal Window for Fullscreen 3D Viewing -->
+    <div class="modal-overlay" id="3d-modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title-text">3D-ПРОСМОТР КРОССОВКА</div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <model-viewer 
+                    id="modal-viewer"
+                    src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/MaterialsVariantsShoe/glTF-Binary/MaterialsVariantsShoe.glb"
+                    auto-rotate
+                    camera-controls
+                    touch-action="pan-y"
+                    shadow-intensity="1.5"
+                    exposure="1.1"
+                    camera-orbit="45deg 75deg 105%"
+                    field-of-view="30deg">
+                </model-viewer>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
     <script>
-        const viewer = document.getElementById('shoe-viewer');
-        const rotateBtn = document.getElementById('rotate-btn');
-        const rotateText = document.getElementById('rotate-text');
-
-        // 1. Включение / выключение авто-вращения 3D
-        function toggleAutoRotate() {
-            if (viewer.hasAttribute('auto-rotate')) {
-                viewer.removeAttribute('auto-rotate');
-                rotateBtn.classList.remove('active');
-                rotateText.textContent = 'Старт 360°';
-            } else {
-                viewer.setAttribute('auto-rotate', '');
-                rotateBtn.classList.add('active');
-                rotateText.textContent = 'Пауза 360°';
-            }
-        }
-
-        // 2. Смена ракурсов камеры
-        function setCamera(orbit) {
-            viewer.cameraOrbit = orbit;
-        }
-
-        // 3. Интерактивная смена материалов/расцветок 3D-модели
-        async function switchVariant(variantName, element) {
-            // Обновляем выделение кнопки
-            document.querySelectorAll('.variant-dot').forEach(dot => dot.classList.remove('active'));
-            element.classList.add('active');
-
-            // Проверяем доступность вариантов в 3D модели
-            const availableVariants = await viewer.availableVariants;
-            if (availableVariants && availableVariants.includes(variantName)) {
-                viewer.variantName = variantName;
-            } else if (availableVariants && availableVariants.length > 0) {
-                // Если указанный вариант отсутствует, переключаем на следующий по индексу
-                const index = Array.from(element.parentElement.children).indexOf(element) % availableVariants.length;
-                viewer.variantName = availableVariants[index];
-            }
-        }
-
-        // 4. Корзина
-        let cartItems = 0;
-        function addToCart() {
-            cartItems++;
-            document.getElementById('cart-count').textContent = cartItems;
-        }
-    </script>
-</body>
-</html>
-
+        // 1. Старт/Пауза вращения конкретной карточки
+        function toggleRotate(viewerId) {
+            const el = document.getElementById(viewerId);
+            if (el.hasAttribute('auto-rotate')) 
